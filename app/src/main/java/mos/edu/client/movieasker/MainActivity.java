@@ -1,10 +1,10 @@
 package mos.edu.client.movieasker;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
     private static final int MAIN_LAYOUT = R.layout.activity_main;
     private static final int MAIN_MENU = R.menu.menu_main;
 

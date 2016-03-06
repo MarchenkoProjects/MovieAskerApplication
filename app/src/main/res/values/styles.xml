@@ -1,9 +1,11 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat">
+    <style name="AppThemeBase" parent="Theme.AppCompat.Light.NoActionBar" />
+
+    <style name="AppThemeDefault" parent="AppThemeBase">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="windowActionBar">false</item>
+        <item name="colorControlNormal">@color/colorWhite</item>
     </style>
 
 </resources>
