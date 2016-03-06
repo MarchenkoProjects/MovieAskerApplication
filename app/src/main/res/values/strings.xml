@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">MovieAsker</string>
+    <string name="app_name">MovieAsker Beta</string>
+
+    <string name="search_item_title">search</string>
 </resources>
