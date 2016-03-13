@@ -6,7 +6,10 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="tab_new">NEW</string>
-    <string name="tab_favorite">FAVORITE</string>
-    <string name="tab_looked">LOOKED</string>
+    <string name="registration_item_title">REGISTRATION</string>
+    <string name="new_item_title">NEW</string>
+    <string name="favorite_item_title">FAVORITE</string>
+    <string name="looked_item_title">LOOKED</string>
+    <string name="setting_item_title">SETTINGS</string>
+    <string name="about_item_title">ABOUT</string>
 </resources>

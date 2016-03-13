@@ -1,8 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/new_navigation_menu_item"
+    <item android:id="@+id/registration_navigation_item"
+        android:icon="@mipmap/ic_registration"
+        android:title="@string/registration_item_title" />
+
+    <item android:id="@+id/new_navigation_item"
         android:icon="@mipmap/ic_new"
-        android:title="NEW" />
+        android:title="@string/new_item_title" />
+
+    <item android:id="@+id/favorite_navigation_item"
+        android:icon="@mipmap/ic_heart_on"
+        android:title="@string/favorite_item_title"
+        android:visible="false" />
+
+    <item android:id="@+id/looked_navigation_item"
+        android:icon="@mipmap/ic_eye_on"
+        android:title="@string/looked_item_title"
+        android:visible="false" />
+
+    <item android:id="@+id/settings_navigation_item"
+        android:icon="@mipmap/ic_settings"
+        android:title="@string/setting_item_title" />
+
+    <item android:id="@+id/about_navigation_item"
+        android:icon="@mipmap/ic_about"
+        android:title="@string/about_item_title" />
 
 </menu>

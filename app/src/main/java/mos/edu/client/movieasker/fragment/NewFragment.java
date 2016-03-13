@@ -19,8 +19,6 @@ import mos.edu.client.movieasker.dto.Film;
 public class NewFragment extends AbstractFragment {
     private static final int FRAGMENT_LAYOUT = R.layout.fragment_new;
 
-    private FilmListAdapter adapter;
-
     private static NewFragment instance;
 
     public static NewFragment getInstance(Context context) {
@@ -29,7 +27,7 @@ public class NewFragment extends AbstractFragment {
             instance = new NewFragment();
             instance.setArguments(bundle);
             instance.context = context;
-            instance.setTitle(context.getString(R.string.tab_new));
+            instance.setTitle(context.getString(R.string.new_item_title));
         }
         return instance;
     }
@@ -47,7 +45,7 @@ public class NewFragment extends AbstractFragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        adapter = new FilmListAdapter(createMockFilmList());
+        FilmListAdapter adapter = new FilmListAdapter(createMockFilmList());
         recyclerView.setAdapter(adapter);
 
         return view;
@@ -55,12 +53,21 @@ public class NewFragment extends AbstractFragment {
 
     private List<Film> createMockFilmList() {
         List<Film> films = new ArrayList<>();
-        films.add(new Film("Властелин колец: Братство кольца", 2001));
-        films.add(new Film("Властелин колец: Две башни", 2002));
-        films.add(new Film("Властелин колец: Возвращение короля", 2003));
-        films.add(new Film("Гарри Поттер и Философский камень", 2002));
-        films.add(new Film("Гарри Поттер и Тайная комната", 2004));
-        films.add(new Film("Гарри Поттер и Узник Азкабана", 2005));
+        films.add(new Film(1, "Властелин колец: Братство кольца", 2001));
+        films.add(new Film(2, "Властелин колец: Две башни", 2002));
+        films.add(new Film(3, "Властелин колец: Возвращение короля", 2003));
+        films.add(new Film(4, "Хоббит: Нежданное путешествие", 2012));
+        films.add(new Film(5, "Хоббит: Пустошь Смауга", 2013));
+        films.add(new Film(6, "Хоббит: Битва пяти воинств", 2014));
+        films.add(new Film(7, "Гарри Поттер и Философский камень", 2001));
+        films.add(new Film(8, "Гарри Поттер и Тайная комната", 2002));
+        films.add(new Film(9, "Гарри Поттер и Узник Азкабана", 2004));
+        films.add(new Film(10, "Гарри Поттер и Кубок огня", 2005));
+        films.add(new Film(11, "Гарри Поттер и Орден Феникса", 2007));
+        films.add(new Film(12, "Гарри Поттер и Принц-полукровка", 2009));
+        films.add(new Film(13, "Гарри Поттер и Дары смерти: Часть 1", 2010));
+        films.add(new Film(14, "Гарри Поттер и Дары смерти: Часть 2", 2011));
+        films.add(new Film(15, "Одиннадцать друзей Оушена", 2002));
         return films;
     }
 

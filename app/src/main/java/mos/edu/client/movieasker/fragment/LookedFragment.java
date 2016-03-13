@@ -15,7 +15,7 @@ public class LookedFragment extends AbstractFragment {
     private static LookedFragment instance = new LookedFragment();
 
     public static LookedFragment getInstance(Context context) {
-        instance.setTitle(context.getString(R.string.tab_looked));
+        instance.setTitle(context.getString(R.string.looked_item_title));
         return instance;
     }
 

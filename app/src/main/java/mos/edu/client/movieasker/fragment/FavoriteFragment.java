@@ -15,7 +15,7 @@ public class FavoriteFragment extends AbstractFragment {
     private static FavoriteFragment instance = new FavoriteFragment();
 
     public static FavoriteFragment getInstance(Context context) {
-        instance.setTitle(context.getString(R.string.tab_favorite));
+        instance.setTitle(context.getString(R.string.favorite_item_title));
         return instance;
     }
 

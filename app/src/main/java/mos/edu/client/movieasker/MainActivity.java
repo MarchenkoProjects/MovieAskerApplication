@@ -10,8 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import mos.edu.client.movieasker.adapter.TabsFragmentPagerAdapter;
-import mos.edu.client.movieasker.fragment.FavoriteFragment;
-import mos.edu.client.movieasker.fragment.LookedFragment;
 import mos.edu.client.movieasker.fragment.NewFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -60,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
     private void initTabs() {
         TabsFragmentPagerAdapter tabsAdapter = new TabsFragmentPagerAdapter(getSupportFragmentManager());
         tabsAdapter.addFragment(NewFragment.getInstance(this));
-        tabsAdapter.addFragment(FavoriteFragment.getInstance(this));
-        tabsAdapter.addFragment(LookedFragment.getInstance(this));
+        //tabsAdapter.addFragment(FavoriteFragment.getInstance(this));
+        //tabsAdapter.addFragment(LookedFragment.getInstance(this));
 
         ViewPager mainViewPager = (ViewPager) findViewById(R.id.main_view_pager);
         mainViewPager.setAdapter(tabsAdapter);

@@ -13,9 +13,14 @@ public class Film {
     private long budget;
     private long worldFees;
 
+    private boolean favorite;
+    private boolean looked;
+    private double rating;
+
     protected Film() {}
 
-    public Film(String alternativeName, int year) {
+    public Film(int idFilm, String alternativeName, int year) {
+        this.idFilm = idFilm;
         this.alternativeName = alternativeName;
         this.year = year;
     }
@@ -98,6 +103,30 @@ public class Film {
 
     public void setWorldFees(long worldFees) {
         this.worldFees = worldFees;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    public boolean isLooked() {
+        return looked;
+    }
+
+    public void setLooked(boolean looked) {
+        this.looked = looked;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
 }
