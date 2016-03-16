@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.List;
 
 import mos.edu.client.movieasker.R;
@@ -32,6 +34,7 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
     public void onBindViewHolder(FilmViewHolder holder, int position) {
         Film film = films.get(position);
 
+        ImageLoader.getInstance().displayImage(film.getPosterUrl(), holder.posterImageView);
         holder.alternativeNameTextView.setText(film.getAlternativeName());
         holder.yearTextView.setText(String.valueOf(film.getYear()));
     }

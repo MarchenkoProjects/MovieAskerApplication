@@ -24,8 +24,8 @@
 
             <ImageView
                 android:id="@+id/poster_item"
-                android:layout_width="200dp"
-                android:layout_height="280dp"
+                android:layout_width="@dimen/poster_width"
+                android:layout_height="@dimen/poster_height"
                 android:layout_gravity="center_horizontal"
                 android:padding="6dp"
                 android:background="@drawable/poster_rounded_corner"

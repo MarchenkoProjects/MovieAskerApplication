@@ -19,8 +19,9 @@ public class Film {
 
     protected Film() {}
 
-    public Film(int idFilm, String alternativeName, int year) {
+    public Film(int idFilm, String posterUrl, String alternativeName, int year) {
         this.idFilm = idFilm;
+        this.posterUrl = posterUrl;
         this.alternativeName = alternativeName;
         this.year = year;
     }
