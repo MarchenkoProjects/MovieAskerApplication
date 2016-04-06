@@ -44,7 +44,7 @@ public class UserDao extends AbstractDao<User, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"USER\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
-                "\"AVATAR_URL\" TEXT NOT NULL ," + // 1: avatarUrl
+                "\"AVATAR_URL\" TEXT," + // 1: avatarUrl
                 "\"LOGIN\" TEXT NOT NULL ," + // 2: login
                 "\"PASSWORD\" TEXT NOT NULL ," + // 3: password
                 "\"EMAIL\" TEXT NOT NULL );"); // 4: email
@@ -65,7 +65,11 @@ public class UserDao extends AbstractDao<User, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
-        stmt.bindString(2, entity.getAvatarUrl());
+ 
+        String avatarUrl = entity.getAvatarUrl();
+        if (avatarUrl != null) {
+            stmt.bindString(2, avatarUrl);
+        }
         stmt.bindString(3, entity.getLogin());
         stmt.bindString(4, entity.getPassword());
         stmt.bindString(5, entity.getEmail());
@@ -82,7 +86,7 @@ public class UserDao extends AbstractDao<User, Long> {
     public User readEntity(Cursor cursor, int offset) {
         User entity = new User( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getString(offset + 1), // avatarUrl
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // avatarUrl
             cursor.getString(offset + 2), // login
             cursor.getString(offset + 3), // password
             cursor.getString(offset + 4) // email
@@ -94,7 +98,7 @@ public class UserDao extends AbstractDao<User, Long> {
     @Override
     public void readEntity(Cursor cursor, User entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setAvatarUrl(cursor.getString(offset + 1));
+        entity.setAvatarUrl(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setLogin(cursor.getString(offset + 2));
         entity.setPassword(cursor.getString(offset + 3));
         entity.setEmail(cursor.getString(offset + 4));

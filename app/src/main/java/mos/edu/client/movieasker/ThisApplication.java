@@ -16,7 +16,7 @@ import java.io.File;
 import mos.edu.client.movieasker.db.DaoMaster;
 import mos.edu.client.movieasker.db.DaoSession;
 
-public class ThisApplication extends Application {
+public final class ThisApplication extends Application {
 
     private static ThisApplication instance;
 
@@ -46,14 +46,14 @@ public class ThisApplication extends Application {
     }
 
     private void initImageLoader() {
-        File cacheDir = StorageUtils.getCacheDirectory(getApplicationContext());
+        final File cacheDir = StorageUtils.getCacheDirectory(getApplicationContext());
 
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
+        final DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
                 .build();
 
-        ImageLoaderConfiguration config =
+        final ImageLoaderConfiguration config =
                 new ImageLoaderConfiguration.Builder(getApplicationContext())
                 .memoryCacheExtraOptions(R.dimen.poster_width, R.dimen.poster_height)
                 .threadPoolSize(3)
@@ -73,10 +73,10 @@ public class ThisApplication extends Application {
     }
 
     private void initDatabase() {
-        DaoMaster.DevOpenHelper helper =
+        final DaoMaster.DevOpenHelper helper =
                 new DaoMaster.DevOpenHelper(this, Constants.DATABASE.NAME, null);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        DaoMaster master = new DaoMaster(db);
+        final SQLiteDatabase db = helper.getWritableDatabase();
+        final DaoMaster master = new DaoMaster(db);
         session = master.newSession();
     }
 

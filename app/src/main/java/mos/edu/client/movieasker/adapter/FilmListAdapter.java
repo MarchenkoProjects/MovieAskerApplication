@@ -32,7 +32,7 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
 
     @Override
     public void onBindViewHolder(FilmViewHolder holder, int position) {
-        Film film = films.get(position);
+        final Film film = films.get(position);
 
         ImageLoader.getInstance().displayImage(film.getPosterUrl(), holder.posterImageView);
         holder.alternativeNameTextView.setText(film.getAlternativeName());

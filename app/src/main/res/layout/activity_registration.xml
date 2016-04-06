@@ -92,7 +92,8 @@
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/create_user_button_title" />
+                        android:text="@string/create_user_button_title"
+                        android:onClick="createUserClick" />
 
                 </LinearLayout>
             </ScrollView>

@@ -7,7 +7,6 @@ package mos.edu.client.movieasker.db;
 public class User {
 
     private Long id;
-    /** Not-null value. */
     private String avatarUrl;
     /** Not-null value. */
     private String login;
@@ -39,12 +38,10 @@ public class User {
         this.id = id;
     }
 
-    /** Not-null value. */
     public String getAvatarUrl() {
         return avatarUrl;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }

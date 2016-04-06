@@ -22,4 +22,12 @@
     <string name="repeat_password_hint">Repeat password</string>
     <string name="email_hint">Email</string>
     <string name="create_user_button_title">Create User</string>
+
+    <string name="login_empty_warning">Login is empty</string>
+    <string name="login_length_warning">Login can`t be less 3 symbols</string>
+    <string name="password_empty_warning">Password is empty</string>
+    <string name="password_length_warning">Password can`t be less 4 symbols</string>
+    <string name="repeat_password_empty_warning">Repeat password is empty</string>
+    <string name="passwords_not_equals_warning">Password and Repeat password not equals</string>
+    <string name="email_empty_warning">Email is empty</string>
 </resources>
