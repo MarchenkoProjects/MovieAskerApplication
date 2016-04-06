@@ -5,6 +5,8 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_header_login">Your login</string>
+    <string name="navigation_header_email">your-email@email.com</string>
 
     <string name="registration_item_title">REGISTRATION</string>
     <string name="new_item_title">NEW</string>

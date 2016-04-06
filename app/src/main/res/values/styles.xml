@@ -3,8 +3,9 @@
     <style name="AppThemeBase" parent="Theme.AppCompat.Light.NoActionBar" />
 
     <style name="AppThemeDefault" parent="AppThemeBase">
-        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorWhite</item>
         <item name="colorControlNormal">@color/colorWhite</item>
     </style>
 
