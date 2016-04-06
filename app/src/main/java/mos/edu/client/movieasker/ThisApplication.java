@@ -53,7 +53,8 @@ public class ThisApplication extends Application {
                 .cacheOnDisk(true)
                 .build();
 
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+        ImageLoaderConfiguration config =
+                new ImageLoaderConfiguration.Builder(getApplicationContext())
                 .memoryCacheExtraOptions(R.dimen.poster_width, R.dimen.poster_height)
                 .threadPoolSize(3)
                 .threadPriority(Thread.MIN_PRIORITY + 2)
@@ -72,7 +73,8 @@ public class ThisApplication extends Application {
     }
 
     private void initDatabase() {
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, Constants.DATABASE.NAME, null);
+        DaoMaster.DevOpenHelper helper =
+                new DaoMaster.DevOpenHelper(this, Constants.DATABASE.NAME, null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster master = new DaoMaster(db);
         session = master.newSession();

@@ -42,7 +42,8 @@ public class NewFragment extends AbstractFragment {
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ThisApplication.getInstance());
+        LinearLayoutManager linearLayoutManager =
+                new LinearLayoutManager(ThisApplication.getInstance());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 

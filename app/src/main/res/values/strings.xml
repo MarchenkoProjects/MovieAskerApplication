@@ -14,4 +14,12 @@
     <string name="looked_item_title">LOOKED</string>
     <string name="setting_item_title">SETTINGS</string>
     <string name="about_item_title">ABOUT</string>
+
+    <string name="registration_title">Registration</string>
+    <string name="welcome_registration_text">Welcome to MovieAsker registration.</string>
+    <string name="login_hint">Login</string>
+    <string name="password_hint">Password</string>
+    <string name="repeat_password_hint">Repeat password</string>
+    <string name="email_hint">Email</string>
+    <string name="create_user_button_title">Create User</string>
 </resources>
