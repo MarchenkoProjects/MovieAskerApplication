@@ -13,14 +13,14 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.List;
 
 import mos.edu.client.movieasker.R;
-import mos.edu.client.movieasker.dto.Film;
+import mos.edu.client.movieasker.dto.FilmDTO;
 
 public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmViewHolder> {
     private static final int ITEM_LAYOUT = R.layout.film_item;
 
-    private List<Film> films;
+    private List<FilmDTO> films;
 
-    public FilmListAdapter(List<Film> films) {
+    public FilmListAdapter(List<FilmDTO> films) {
         this.films = films;
     }
 
@@ -32,7 +32,7 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
 
     @Override
     public void onBindViewHolder(FilmViewHolder holder, int position) {
-        final Film film = films.get(position);
+        final FilmDTO film = films.get(position);
 
         ImageLoader.getInstance().displayImage(film.getPosterUrl(), holder.posterImageView);
         holder.alternativeNameTextView.setText(film.getAlternativeName());

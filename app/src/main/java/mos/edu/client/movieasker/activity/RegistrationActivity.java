@@ -17,13 +17,23 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import mos.edu.client.movieasker.Constants;
 import mos.edu.client.movieasker.R;
 import mos.edu.client.movieasker.ThisApplication;
+import mos.edu.client.movieasker.activity.dialog.DialogManager;
+import mos.edu.client.movieasker.db.DaoSession;
 import mos.edu.client.movieasker.db.User;
+import mos.edu.client.movieasker.db.UserDao;
+import mos.edu.client.movieasker.dto.UserDTO;
 
 public class RegistrationActivity extends AppCompatActivity {
     private static final int LAYOUT = R.layout.activity_registration;
@@ -76,7 +86,7 @@ public class RegistrationActivity extends AppCompatActivity {
         }
         else {
             final String passwordCrypt = getMD5Hash(password);
-            final User user = new User(1L, null, login, passwordCrypt, email);
+            final UserDTO user = new UserDTO(login, passwordCrypt, email);
             new RegistrationTask().execute(user);
         }
     }
@@ -87,27 +97,35 @@ public class RegistrationActivity extends AppCompatActivity {
         stateRegistrationProgressBar = (ProgressBar) findViewById(R.id.state_registration_progressbar);
         loginEditText = (EditText) findViewById(R.id.login_edit_text);
         passwordEditText = (EditText) findViewById(R.id.password_edit_text);
-        passwordEditText.addTextChangedListener(controlPasswordLengthListener);
+        if (passwordEditText != null) {
+            passwordEditText.addTextChangedListener(controlPasswordLengthListener);
+        }
         repeatPasswordEditText = (EditText) findViewById(R.id.repeat_password_edit_text);
-        repeatPasswordEditText.addTextChangedListener(controlEqualsPasswordListener);
-        CheckBox showPasswordCheckBox = (CheckBox) findViewById(R.id.show_password_checkbox);
-        showPasswordCheckBox.setOnCheckedChangeListener(showPasswordListener);
+        if (repeatPasswordEditText != null) {
+            repeatPasswordEditText.addTextChangedListener(controlEqualsPasswordListener);
+        }
+        final CheckBox showPasswordCheckBox = (CheckBox) findViewById(R.id.show_password_checkbox);
+        if (showPasswordCheckBox != null) {
+            showPasswordCheckBox.setOnCheckedChangeListener(showPasswordListener);
+        }
         emailEditText = (EditText) findViewById(R.id.email_edit_text);
     }
 
     private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.registration_toolbar);
-        toolbar.setTitle(R.string.registration_title);
-        setSupportActionBar(toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.registration_toolbar);
+        if (toolbar != null) {
+            toolbar.setTitle(R.string.registration_title);
+            setSupportActionBar(toolbar);
+        }
 
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeAsUpIndicator(R.mipmap.ic_arrow_back);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
-    private TextWatcher controlPasswordLengthListener = new TextWatcher() {
+    private final TextWatcher controlPasswordLengthListener = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
 
@@ -134,7 +152,7 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     };
 
-    private TextWatcher controlEqualsPasswordListener = new TextWatcher() {
+    private final TextWatcher controlEqualsPasswordListener = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
 
@@ -166,7 +184,7 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     };
 
-    private CompoundButton.OnCheckedChangeListener showPasswordListener = new CompoundButton.OnCheckedChangeListener() {
+    private final CompoundButton.OnCheckedChangeListener showPasswordListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
             if (checked) {
@@ -204,10 +222,12 @@ public class RegistrationActivity extends AppCompatActivity {
         return passwordCrypt;
     }
 
-    private class RegistrationTask extends AsyncTask<User, Void, Integer> {
+    private class RegistrationTask extends AsyncTask<UserDTO, Void, Integer> {
         public static final int BAD_INTERNET_CONNECTION_CODE = -1;
         public static final int OK_CODE = 0;
-        public static final int LOGIN_FOUND_CODE = 1;
+        public static final int LOGIN_EXISTS_CODE = 1;
+
+        private RestTemplate template = ThisApplication.getInstance().getRestTemplate();
 
         @Override
         protected void onPreExecute() {
@@ -216,15 +236,66 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Integer doInBackground(User... users) {
-            return OK_CODE;
+        protected Integer doInBackground(UserDTO... users) {
+            final UserDTO user = users[0];
+
+            final ResponseEntity<UserDTO> response;
+            try {
+                final boolean loginFound = checkUserLogin(user.getLogin());
+                if (loginFound) {
+                    return LOGIN_EXISTS_CODE;
+                }
+
+                response = template.postForEntity(Constants.URI.USERS_URI, user, UserDTO.class);
+            } catch (RestClientException rce) {
+                return BAD_INTERNET_CONNECTION_CODE;
+            }
+
+            if (response.getStatusCode() == HttpStatus.CREATED) {
+                final UserDTO createdUser = response.getBody();
+
+                final User localUser = new User();
+                localUser.setGlobalId(createdUser.getIdUser());
+                localUser.setLogin(createdUser.getLogin());
+                localUser.setPassword(user.getPassword());
+                localUser.setEmail(createdUser.getEmail());
+
+                final DaoSession session = ThisApplication.getInstance().getSession();
+                final UserDao userDao = session.getUserDao();
+                userDao.insert(localUser);
+
+                return OK_CODE;
+            }
+
+            return BAD_INTERNET_CONNECTION_CODE;
         }
 
         @Override
         protected void onPostExecute(Integer resultCode) {
             stateRegistrationProgressBar.setVisibility(View.GONE);
+
+            final Context context = ThisApplication.getInstance();
+            switch (resultCode) {
+                case LOGIN_EXISTS_CODE:
+                    Toast.makeText(context, R.string.login_exists_warning, Toast.LENGTH_LONG).show();
+                    break;
+                case BAD_INTERNET_CONNECTION_CODE:
+                    DialogManager.showDialog(RegistrationActivity.this, DialogManager.CREATE_USER_FAILED_DIALOG);
+                    break;
+                case OK_CODE:
+                    DialogManager.showDialog(RegistrationActivity.this, DialogManager.CREATE_USER_SUCCESSFUL_DIALOG);
+                    break;
+            }
+
             super.onPostExecute(resultCode);
         }
+
+        private boolean checkUserLogin(String login) throws RestClientException {
+            final ResponseEntity<UserDTO> response =
+                    template.getForEntity(Constants.URI.GET_USER_BY_LOGIN, UserDTO.class, login);
+            return response.getStatusCode() == HttpStatus.OK;
+        }
+
     }
 
 }

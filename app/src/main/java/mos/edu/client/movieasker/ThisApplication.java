@@ -11,10 +11,14 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
+import org.springframework.web.client.RestTemplate;
+
 import java.io.File;
 
 import mos.edu.client.movieasker.db.DaoMaster;
 import mos.edu.client.movieasker.db.DaoSession;
+import mos.edu.client.movieasker.db.User;
+import mos.edu.client.movieasker.db.UserDao;
 
 public final class ThisApplication extends Application {
 
@@ -25,6 +29,7 @@ public final class ThisApplication extends Application {
     }
 
     private DaoSession session;
+    private RestTemplate template;
 
     @Override
     public void onCreate() {
@@ -33,6 +38,7 @@ public final class ThisApplication extends Application {
 
         initImageLoader();
         initDatabase();
+        initRestTemplate();
     }
 
     @Override
@@ -45,6 +51,15 @@ public final class ThisApplication extends Application {
         return session;
     }
 
+    public User getUser() {
+        final UserDao userDao = session.getUserDao();
+        return userDao.load(Constants.REGISTERED_USER_ID);
+    }
+
+    public RestTemplate getRestTemplate() {
+        return template;
+    }
+
     private void initImageLoader() {
         final File cacheDir = StorageUtils.getCacheDirectory(getApplicationContext());
 
@@ -54,7 +69,7 @@ public final class ThisApplication extends Application {
                 .build();
 
         final ImageLoaderConfiguration config =
-                new ImageLoaderConfiguration.Builder(getApplicationContext())
+                new ImageLoaderConfiguration.Builder(this)
                 .memoryCacheExtraOptions(R.dimen.poster_width, R.dimen.poster_height)
                 .threadPoolSize(3)
                 .threadPriority(Thread.MIN_PRIORITY + 2)
@@ -78,6 +93,10 @@ public final class ThisApplication extends Application {
         final SQLiteDatabase db = helper.getWritableDatabase();
         final DaoMaster master = new DaoMaster(db);
         session = master.newSession();
+    }
+
+    private void initRestTemplate() {
+        template = new RestTemplate();
     }
 
 }

@@ -1,6 +1,6 @@
 package mos.edu.client.movieasker.dto;
 
-public class Film {
+public class FilmDTO {
 
     private int idFilm;
     private String posterUrl;
@@ -17,9 +17,9 @@ public class Film {
     private boolean looked;
     private double rating;
 
-    protected Film() {}
+    protected FilmDTO() {}
 
-    public Film(int idFilm, String posterUrl, String alternativeName, int year) {
+    public FilmDTO(int idFilm, String posterUrl, String alternativeName, int year) {
         this.idFilm = idFilm;
         this.posterUrl = posterUrl;
         this.alternativeName = alternativeName;

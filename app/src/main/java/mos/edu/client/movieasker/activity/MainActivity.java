@@ -10,11 +10,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import mos.edu.client.movieasker.Constants;
 import mos.edu.client.movieasker.R;
+import mos.edu.client.movieasker.ThisApplication;
 import mos.edu.client.movieasker.adapter.TabsFragmentPagerAdapter;
+import mos.edu.client.movieasker.db.User;
 import mos.edu.client.movieasker.fragment.FavoriteFragment;
 import mos.edu.client.movieasker.fragment.LookedFragment;
 import mos.edu.client.movieasker.fragment.NewFragment;
@@ -37,10 +42,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        else
+        }
+        else {
             super.onBackPressed();
+        }
     }
 
     private void loadViews() {
@@ -51,27 +58,51 @@ public class MainActivity extends AppCompatActivity {
 
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        toolbar.setTitle(R.string.app_name);
-        toolbar.inflateMenu(MENU);
+        if (toolbar != null) {
+            toolbar.setTitle(R.string.app_name);
+            toolbar.inflateMenu(MENU);
+        }
     }
 
     private void initNavigationDrawer() {
         drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
-            this,
-            drawerLayout,
-            toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        );
-        drawerLayout.addDrawerListener(drawerToggle);
-        drawerToggle.syncState();
+        if (drawerLayout != null) {
+            final ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
+                    this,
+                    drawerLayout,
+                    toolbar,
+                    R.string.navigation_drawer_open,
+                    R.string.navigation_drawer_close
+            );
+            drawerToggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.main_navigation_view);
-        navigationView.setNavigationItemSelectedListener(navigationItemListener);
+            drawerLayout.addDrawerListener(drawerToggle);
+        }
+
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.main_navigation_view);
+        if (navigationView != null) {
+            initUserProfileInNavigationHeader(navigationView);
+            navigationView.setNavigationItemSelectedListener(navigationItemListener);
+        }
     }
 
-    private NavigationView.OnNavigationItemSelectedListener navigationItemListener =
+    private void initUserProfileInNavigationHeader(NavigationView navigationView) {
+        final User user = ThisApplication.getInstance().getUser();
+        if (user != null) {
+            final View navigationHeader = navigationView.getHeaderView(0);
+            TextView profileLoginTextView = (TextView) navigationHeader.findViewById(R.id.profile_login_text_view);
+            profileLoginTextView.setText(user.getLogin());
+
+            TextView profileEmailTextView = (TextView) navigationHeader.findViewById(R.id.profile_email_text_view);
+            profileEmailTextView.setText(user.getEmail());
+
+            final Menu navigationMenu = navigationView.getMenu();
+            final MenuItem registrationItem = navigationMenu.findItem(R.id.registration_navigation_item);
+            registrationItem.setVisible(false);
+        }
+    }
+
+    private final NavigationView.OnNavigationItemSelectedListener navigationItemListener =
             new NavigationView.OnNavigationItemSelectedListener() {
 
                 @Override
@@ -101,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 private void showRegistrationActivity() {
-                    Intent registrationActivity =
+                    final Intent registrationActivity =
                             new Intent(MainActivity.this, RegistrationActivity.class);
                     startActivity(registrationActivity);
                 }
@@ -121,17 +152,21 @@ public class MainActivity extends AppCompatActivity {
             };
 
     private void initTabs() {
-        TabsFragmentPagerAdapter tabsAdapter =
+        final TabsFragmentPagerAdapter tabsAdapter =
                 new TabsFragmentPagerAdapter(getSupportFragmentManager());
         tabsAdapter.addFragment(NewFragment.getInstance());
         tabsAdapter.addFragment(FavoriteFragment.getInstance());
         tabsAdapter.addFragment(LookedFragment.getInstance());
 
         viewPager = (ViewPager) findViewById(R.id.main_view_pager);
-        viewPager.setAdapter(tabsAdapter);
+        if (viewPager != null) {
+            viewPager.setAdapter(tabsAdapter);
+        }
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.main_tabs_layout);
-        tabLayout.setupWithViewPager(viewPager);
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.main_tabs_layout);
+        if (tabLayout != null) {
+            tabLayout.setupWithViewPager(viewPager);
+        }
     }
 
 }

@@ -30,4 +30,11 @@
     <string name="repeat_password_empty_warning">Repeat password is empty</string>
     <string name="passwords_not_equals_warning">Password and Repeat password not equals</string>
     <string name="email_empty_warning">Email is empty</string>
+    <string name="login_exists_warning">This login already registered</string>
+
+    <string name="dialog_button_ok">OK</string>
+    <string name="dialog_create_user_failed_title">Create User Failed</string>
+    <string name="dialog_create_user_failed_message">Please try again later or check your internet connection</string>
+    <string name="dialog_create_user_successful_title">Create User Successful</string>
+    <string name="dialog_create_user_successful_message">Wonderful! You registered in MovieAsker system</string>
 </resources>

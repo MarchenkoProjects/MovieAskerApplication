@@ -7,7 +7,7 @@ package mos.edu.client.movieasker.db;
 public class User {
 
     private Long id;
-    private String avatarUrl;
+    private int globalId;
     /** Not-null value. */
     private String login;
     /** Not-null value. */
@@ -22,9 +22,9 @@ public class User {
         this.id = id;
     }
 
-    public User(Long id, String avatarUrl, String login, String password, String email) {
+    public User(Long id, int globalId, String login, String password, String email) {
         this.id = id;
-        this.avatarUrl = avatarUrl;
+        this.globalId = globalId;
         this.login = login;
         this.password = password;
         this.email = email;
@@ -38,12 +38,12 @@ public class User {
         this.id = id;
     }
 
-    public String getAvatarUrl() {
-        return avatarUrl;
+    public int getGlobalId() {
+        return globalId;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
+    public void setGlobalId(int globalId) {
+        this.globalId = globalId;
     }
 
     /** Not-null value. */

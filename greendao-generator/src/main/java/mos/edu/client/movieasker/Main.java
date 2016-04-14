@@ -19,7 +19,7 @@ public class Main {
     private static void createDatabase(Schema schema) {
         Entity user = schema.addEntity("User");
         user.addIdProperty();
-        user.addStringProperty("avatarUrl");
+        user.addIntProperty("globalId").notNull();
         user.addStringProperty("login").notNull();
         user.addStringProperty("password").notNull();
         user.addStringProperty("email").notNull();

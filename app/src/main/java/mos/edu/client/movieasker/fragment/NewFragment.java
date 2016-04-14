@@ -15,7 +15,7 @@ import mos.edu.client.movieasker.Constants;
 import mos.edu.client.movieasker.R;
 import mos.edu.client.movieasker.ThisApplication;
 import mos.edu.client.movieasker.adapter.FilmListAdapter;
-import mos.edu.client.movieasker.dto.Film;
+import mos.edu.client.movieasker.dto.FilmDTO;
 
 public class NewFragment extends AbstractFragment {
     private static final int FRAGMENT_LAYOUT = R.layout.fragment_new;
@@ -25,6 +25,8 @@ public class NewFragment extends AbstractFragment {
     public static NewFragment getInstance() {
         return instance;
     }
+
+    private FilmListAdapter adapter;
 
     public NewFragment() {
         setTitle(ThisApplication.getInstance().getString(R.string.new_item_title));
@@ -47,32 +49,32 @@ public class NewFragment extends AbstractFragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        FilmListAdapter adapter = new FilmListAdapter(createMockFilmList());
+        adapter = new FilmListAdapter(createMockFilmList());
         recyclerView.setAdapter(adapter);
 
         return view;
     }
 
-    private List<Film> createMockFilmList() {
+    private List<FilmDTO> createMockFilmList() {
 
         final String posterExt = ".jpg";
 
-        List<Film> films = new ArrayList<>();
-        films.add(new Film(1, Constants.URI.POSTERS_URI + "1" + posterExt, "Властелин колец: Братство кольца", 2001));
-        films.add(new Film(2, Constants.URI.POSTERS_URI + "2" + posterExt, "Властелин колец: Две башни", 2002));
-        films.add(new Film(3, Constants.URI.POSTERS_URI + "3" + posterExt, "Властелин колец: Возвращение короля", 2003));
-        films.add(new Film(4, Constants.URI.POSTERS_URI + "4" + posterExt, "Хоббит: Нежданное путешествие", 2012));
-        films.add(new Film(5, Constants.URI.POSTERS_URI + "5" + posterExt, "Хоббит: Пустошь Смауга", 2013));
-        films.add(new Film(6, Constants.URI.POSTERS_URI + "6" + posterExt, "Хоббит: Битва пяти воинств", 2014));
-        films.add(new Film(7, Constants.URI.POSTERS_URI + "7" + posterExt, "Гарри Поттер и Философский камень", 2001));
-        films.add(new Film(8, Constants.URI.POSTERS_URI + "8" + posterExt, "Гарри Поттер и Тайная комната", 2002));
-        films.add(new Film(9, Constants.URI.POSTERS_URI + "9" + posterExt, "Гарри Поттер и Узник Азкабана", 2004));
-        films.add(new Film(10, Constants.URI.POSTERS_URI + "10" + posterExt, "Гарри Поттер и Кубок огня", 2005));
-        films.add(new Film(11, Constants.URI.POSTERS_URI + "11" + posterExt, "Гарри Поттер и Орден Феникса", 2007));
-        films.add(new Film(12, Constants.URI.POSTERS_URI + "12" + posterExt, "Гарри Поттер и Принц-полукровка", 2009));
-        films.add(new Film(13, Constants.URI.POSTERS_URI + "13" + posterExt, "Гарри Поттер и Дары смерти: Часть 1", 2010));
-        films.add(new Film(14, Constants.URI.POSTERS_URI + "14" + posterExt, "Гарри Поттер и Дары смерти: Часть 2", 2011));
-        films.add(new Film(15, Constants.URI.POSTERS_URI + "15" + posterExt, "Одиннадцать друзей Оушена", 2002));
+        List<FilmDTO> films = new ArrayList<>();
+        films.add(new FilmDTO(1, Constants.URI.POSTERS_URI + "1" + posterExt, "Властелин колец: Братство кольца", 2001));
+        films.add(new FilmDTO(2, Constants.URI.POSTERS_URI + "2" + posterExt, "Властелин колец: Две башни", 2002));
+        films.add(new FilmDTO(3, Constants.URI.POSTERS_URI + "3" + posterExt, "Властелин колец: Возвращение короля", 2003));
+        films.add(new FilmDTO(4, Constants.URI.POSTERS_URI + "4" + posterExt, "Хоббит: Нежданное путешествие", 2012));
+        films.add(new FilmDTO(5, Constants.URI.POSTERS_URI + "5" + posterExt, "Хоббит: Пустошь Смауга", 2013));
+        films.add(new FilmDTO(6, Constants.URI.POSTERS_URI + "6" + posterExt, "Хоббит: Битва пяти воинств", 2014));
+        films.add(new FilmDTO(7, Constants.URI.POSTERS_URI + "7" + posterExt, "Гарри Поттер и Философский камень", 2001));
+        films.add(new FilmDTO(8, Constants.URI.POSTERS_URI + "8" + posterExt, "Гарри Поттер и Тайная комната", 2002));
+        films.add(new FilmDTO(9, Constants.URI.POSTERS_URI + "9" + posterExt, "Гарри Поттер и Узник Азкабана", 2004));
+        films.add(new FilmDTO(10, Constants.URI.POSTERS_URI + "10" + posterExt, "Гарри Поттер и Кубок огня", 2005));
+        films.add(new FilmDTO(11, Constants.URI.POSTERS_URI + "11" + posterExt, "Гарри Поттер и Орден Феникса", 2007));
+        films.add(new FilmDTO(12, Constants.URI.POSTERS_URI + "12" + posterExt, "Гарри Поттер и Принц-полукровка", 2009));
+        films.add(new FilmDTO(13, Constants.URI.POSTERS_URI + "13" + posterExt, "Гарри Поттер и Дары смерти: Часть 1", 2010));
+        films.add(new FilmDTO(14, Constants.URI.POSTERS_URI + "14" + posterExt, "Гарри Поттер и Дары смерти: Часть 2", 2011));
+        films.add(new FilmDTO(15, Constants.URI.POSTERS_URI + "15" + posterExt, "Одиннадцать друзей Оушена", 2002));
         return films;
     }
 
