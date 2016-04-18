@@ -70,7 +70,7 @@ public final class ThisApplication extends Application {
 
         final ImageLoaderConfiguration config =
                 new ImageLoaderConfiguration.Builder(this)
-                .memoryCacheExtraOptions(R.dimen.poster_width, R.dimen.poster_height)
+                .memoryCacheExtraOptions(R.dimen.film_item_poster_width, R.dimen.film_item_poster_height)
                 .threadPoolSize(3)
                 .threadPriority(Thread.MIN_PRIORITY + 2)
                 .denyCacheImageMultipleSizesInMemory()

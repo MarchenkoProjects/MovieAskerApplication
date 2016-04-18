@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import mos.edu.client.movieasker.R;
@@ -19,6 +18,10 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
     private static final int ITEM_LAYOUT = R.layout.film_item;
 
     private List<FilmDTO> films;
+
+    public FilmListAdapter() {
+        this.films = new ArrayList<>();
+    }
 
     public FilmListAdapter(List<FilmDTO> films) {
         this.films = films;
@@ -34,7 +37,7 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
     public void onBindViewHolder(FilmViewHolder holder, int position) {
         final FilmDTO film = films.get(position);
 
-        ImageLoader.getInstance().displayImage(film.getPosterUrl(), holder.posterImageView);
+        //ImageLoader.getInstance().displayImage(film.getPosterUrl(), holder.posterImageView);
         holder.alternativeNameTextView.setText(film.getAlternativeName());
         holder.yearTextView.setText(String.valueOf(film.getYear()));
     }
@@ -42,6 +45,15 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
     @Override
     public int getItemCount() {
         return films.size();
+    }
+
+    public void setFilms(List<FilmDTO> films) {
+        this.films = films;
+        this.notifyDataSetChanged();
+    }
+
+    public List<FilmDTO> getFilms() {
+        return this.films;
     }
 
     public static class FilmViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

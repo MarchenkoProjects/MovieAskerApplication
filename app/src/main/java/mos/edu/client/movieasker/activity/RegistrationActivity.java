@@ -1,6 +1,5 @@
 package mos.edu.client.movieasker.activity;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -62,27 +61,26 @@ public class RegistrationActivity extends AppCompatActivity {
         final String repeatPassword = repeatPasswordEditText.getText().toString();
         final String email = emailEditText.getText().toString();
 
-        Context context = ThisApplication.getInstance();
         if (login.isEmpty()) {
-            Toast.makeText(context, R.string.login_empty_warning, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.login_empty_warning, Toast.LENGTH_SHORT).show();
         }
         else if (login.length() < MIN_LOGIN_LENGTH) {
-            Toast.makeText(context, R.string.login_length_warning, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.login_length_warning, Toast.LENGTH_SHORT).show();
         }
         else if (password.isEmpty()) {
-            Toast.makeText(context, R.string.password_empty_warning, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.password_empty_warning, Toast.LENGTH_SHORT).show();
         }
         else if (password.length() < MIN_PASSWORD_LENGTH) {
-            Toast.makeText(context, R.string.password_length_warning, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.password_length_warning, Toast.LENGTH_SHORT).show();
         }
         else if (repeatPassword.isEmpty()) {
-            Toast.makeText(context, R.string.repeat_password_empty_warning, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.repeat_password_empty_warning, Toast.LENGTH_SHORT).show();
         }
         else if (!password.equals(repeatPassword)) {
-            Toast.makeText(context, R.string.passwords_not_equals_warning, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.passwords_not_equals_warning, Toast.LENGTH_SHORT).show();
         }
         else if (email.isEmpty()) {
-            Toast.makeText(context, R.string.email_empty_warning, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.email_empty_warning, Toast.LENGTH_SHORT).show();
         }
         else {
             final String passwordCrypt = getMD5Hash(password);
@@ -141,13 +139,13 @@ public class RegistrationActivity extends AppCompatActivity {
             final int length = editable.length();
 
             if (length < MIN_PASSWORD_LENGTH) {
-                passwordEditText.setBackgroundResource(R.color.colorRed);
+                passwordEditText.setBackgroundResource(R.color.color_red);
             }
             else if (length >= MIN_PASSWORD_LENGTH && length < NORMAL_PASSWORD_LENGTH) {
-                passwordEditText.setBackgroundResource(R.color.colorYellow);
+                passwordEditText.setBackgroundResource(R.color.color_yellow);
             }
             else {
-                passwordEditText.setBackgroundResource(R.color.colorGreen);
+                passwordEditText.setBackgroundResource(R.color.color_green);
             }
         }
     };
@@ -169,16 +167,16 @@ public class RegistrationActivity extends AppCompatActivity {
             final int repeatPasswordLength = editable.length();
 
             if (passwordLength != repeatPasswordLength) {
-                repeatPasswordEditText.setBackgroundResource(R.color.colorRed);
+                repeatPasswordEditText.setBackgroundResource(R.color.color_red);
             }
             else {
                 final String password = passwordEditText.getText().toString();
                 final String repeatPassword = repeatPasswordEditText.getText().toString();
                 if (password.equals(repeatPassword)) {
-                    repeatPasswordEditText.setBackgroundResource(R.color.colorGreen);
+                    repeatPasswordEditText.setBackgroundResource(R.color.color_green);
                 }
                 else {
-                    repeatPasswordEditText.setBackgroundResource(R.color.colorRed);
+                    repeatPasswordEditText.setBackgroundResource(R.color.color_red);
                 }
             }
         }
@@ -274,10 +272,9 @@ public class RegistrationActivity extends AppCompatActivity {
         protected void onPostExecute(Integer resultCode) {
             stateRegistrationProgressBar.setVisibility(View.GONE);
 
-            final Context context = ThisApplication.getInstance();
             switch (resultCode) {
                 case LOGIN_EXISTS_CODE:
-                    Toast.makeText(context, R.string.login_exists_warning, Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegistrationActivity.this, R.string.login_exists_warning, Toast.LENGTH_LONG).show();
                     break;
                 case BAD_INTERNET_CONNECTION_CODE:
                     DialogManager.showDialog(RegistrationActivity.this, DialogManager.CREATE_USER_FAILED_DIALOG);

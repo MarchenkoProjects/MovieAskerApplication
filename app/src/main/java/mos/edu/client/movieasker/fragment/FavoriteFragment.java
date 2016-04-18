@@ -10,7 +10,6 @@ import mos.edu.client.movieasker.R;
 import mos.edu.client.movieasker.ThisApplication;
 
 public class FavoriteFragment extends AbstractFragment {
-    private static final int FRAGMENT_LAYOUT = R.layout.fragment_new;
 
     private static FavoriteFragment instance = new FavoriteFragment();
 
@@ -22,14 +21,21 @@ public class FavoriteFragment extends AbstractFragment {
         setTitle(ThisApplication.getInstance().getString(R.string.favorite_item_title));
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(FRAGMENT_LAYOUT, container, false);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        String messageContentEmpty;
+        if (ThisApplication.getInstance().getUser() == null) {
+            messageContentEmpty = ThisApplication.getInstance().getString(R.string.user_not_registered_content_text);
+        }
+        else {
+            messageContentEmpty = ThisApplication.getInstance().getString(R.string.favorite_empty_content_text);
+        }
+        contentEmptyTextView.setText(messageContentEmpty);
+
+        return view;
     }
+
 }

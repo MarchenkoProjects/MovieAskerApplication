@@ -2,8 +2,6 @@ package mos.edu.client.movieasker.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +12,9 @@ import java.util.List;
 import mos.edu.client.movieasker.Constants;
 import mos.edu.client.movieasker.R;
 import mos.edu.client.movieasker.ThisApplication;
-import mos.edu.client.movieasker.adapter.FilmListAdapter;
 import mos.edu.client.movieasker.dto.FilmDTO;
 
 public class NewFragment extends AbstractFragment {
-    private static final int FRAGMENT_LAYOUT = R.layout.fragment_new;
 
     private static NewFragment instance = new NewFragment();
 
@@ -26,36 +22,21 @@ public class NewFragment extends AbstractFragment {
         return instance;
     }
 
-    private FilmListAdapter adapter;
-
     public NewFragment() {
         setTitle(ThisApplication.getInstance().getString(R.string.new_item_title));
-    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        adapter.setFilms(createMockFilmList());
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(FRAGMENT_LAYOUT, container, false);
-
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-
-        LinearLayoutManager linearLayoutManager =
-                new LinearLayoutManager(ThisApplication.getInstance());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(linearLayoutManager);
-
-        adapter = new FilmListAdapter(createMockFilmList());
-        recyclerView.setAdapter(adapter);
-
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        contentEmptyTextView.setText(ThisApplication.getInstance().getString(R.string.new_empty_content_text));
         return view;
     }
 
-    private List<FilmDTO> createMockFilmList() {
+    public List<FilmDTO> createMockFilmList() {
 
         final String posterExt = ".jpg";
 
