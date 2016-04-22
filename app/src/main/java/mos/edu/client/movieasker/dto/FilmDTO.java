@@ -1,6 +1,13 @@
 package mos.edu.client.movieasker.dto;
 
-public class FilmDTO {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import org.springframework.hateoas.ResourceSupport;
+
+import java.util.List;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class FilmDTO extends ResourceSupport {
 
     private int idFilm;
     private String posterUrl;
@@ -13,9 +20,15 @@ public class FilmDTO {
     private long budget;
     private long worldFees;
 
-    private boolean favorite;
-    private boolean looked;
-    private double rating;
+    private List<GenreDTO> genres;
+    private List<CountryDTO> countries;
+
+    private List<PersonDTO> writers;
+    private List<PersonDTO> producers;
+    private List<PersonDTO> directors;
+    private List<PersonDTO> actors;
+
+    private ShortFilmDTO.RatingDTO rating;
 
     protected FilmDTO() {}
 
@@ -106,28 +119,153 @@ public class FilmDTO {
         this.worldFees = worldFees;
     }
 
-    public boolean isFavorite() {
-        return favorite;
+    public List<GenreDTO> getGenres() {
+        return genres;
     }
 
-    public void setFavorite(boolean favorite) {
-        this.favorite = favorite;
+    public void setGenres(List<GenreDTO> genres) {
+        this.genres = genres;
     }
 
-    public boolean isLooked() {
-        return looked;
+    public List<CountryDTO> getCountries() {
+        return countries;
     }
 
-    public void setLooked(boolean looked) {
-        this.looked = looked;
+    public void setCountries(List<CountryDTO> countries) {
+        this.countries = countries;
     }
 
-    public double getRating() {
+    public List<PersonDTO> getWriters() {
+        return writers;
+    }
+
+    public void setWriters(List<PersonDTO> writers) {
+        this.writers = writers;
+    }
+
+    public List<PersonDTO> getProducers() {
+        return producers;
+    }
+
+    public void setProducers(List<PersonDTO> producers) {
+        this.producers = producers;
+    }
+
+    public List<PersonDTO> getDirectors() {
+        return directors;
+    }
+
+    public void setDirectors(List<PersonDTO> directors) {
+        this.directors = directors;
+    }
+
+    public List<PersonDTO> getActors() {
+        return actors;
+    }
+
+    public void setActors(List<PersonDTO> actors) {
+        this.actors = actors;
+    }
+
+    public ShortFilmDTO.RatingDTO getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(ShortFilmDTO.RatingDTO rating) {
         this.rating = rating;
+    }
+
+    public static class GenreDTO extends ResourceSupport {
+
+        private int idGenre;
+        private String genreRu;
+
+        protected GenreDTO() {}
+
+        public int getIdGenre() {
+            return idGenre;
+        }
+
+        public void setIdGenre(int idGenre) {
+            this.idGenre = idGenre;
+        }
+
+        public String getGenreRu() {
+            return genreRu;
+        }
+
+        public void setGenreRu(String genreRu) {
+            this.genreRu = genreRu;
+        }
+
+    }
+
+    public static class CountryDTO extends ResourceSupport {
+
+        private int idCountry;
+        private String countryRu;
+
+        protected CountryDTO() {}
+
+        public int getIdCountry() {
+            return idCountry;
+        }
+
+        public void setIdCountry(int idCountry) {
+            this.idCountry = idCountry;
+        }
+
+        public String getCountryRu() {
+            return countryRu;
+        }
+
+        public void setCountryRu(String countryRu) {
+            this.countryRu = countryRu;
+        }
+
+    }
+
+    public static class PersonDTO extends ResourceSupport {
+
+        private int idPerson;
+        private String fotoUrl;
+        private String nameRu;
+        private String nameEn;
+
+        protected PersonDTO() {}
+
+        public int getIdPerson() {
+            return idPerson;
+        }
+
+        public void setIdPerson(int idPerson) {
+            this.idPerson = idPerson;
+        }
+
+        public String getFotoUrl() {
+            return fotoUrl;
+        }
+
+        public void setFotoUrl(String fotoUrl) {
+            this.fotoUrl = fotoUrl;
+        }
+
+        public String getNameRu() {
+            return nameRu;
+        }
+
+        public void setNameRu(String nameRu) {
+            this.nameRu = nameRu;
+        }
+
+        public String getNameEn() {
+            return nameEn;
+        }
+
+        public void setNameEn(String nameEn) {
+            this.nameEn = nameEn;
+        }
+
     }
 
 }

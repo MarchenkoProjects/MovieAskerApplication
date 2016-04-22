@@ -2,8 +2,10 @@ package mos.edu.client.movieasker.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import org.springframework.hateoas.ResourceSupport;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserDTO {
+public class UserDTO extends ResourceSupport {
 
     private int idUser;
     private String login;
