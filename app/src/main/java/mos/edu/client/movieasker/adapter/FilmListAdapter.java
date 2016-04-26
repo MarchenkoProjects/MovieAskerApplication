@@ -1,6 +1,5 @@
 package mos.edu.client.movieasker.adapter;
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,23 +7,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import mos.edu.client.movieasker.Constants;
 import mos.edu.client.movieasker.R;
-import mos.edu.client.movieasker.dto.FilmDTO;
+import mos.edu.client.movieasker.dto.ShortFilmDTO;
 
 public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmViewHolder> {
     private static final int ITEM_LAYOUT = R.layout.film_item;
 
-    private List<FilmDTO> films;
+    private List<ShortFilmDTO> films;
 
     public FilmListAdapter() {
         this.films = new ArrayList<>();
-    }
-
-    public FilmListAdapter(List<FilmDTO> films) {
-        this.films = films;
     }
 
     @Override
@@ -35,11 +33,12 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
 
     @Override
     public void onBindViewHolder(FilmViewHolder holder, int position) {
-        final FilmDTO film = films.get(position);
+        final ShortFilmDTO film = films.get(position);
 
-        //ImageLoader.getInstance().displayImage(film.getPosterUrl(), holder.posterImageView);
+        ImageLoader.getInstance().displayImage(Constants.URI.POSTERS_URI + film.getPosterUrl(), holder.posterImageView);
         holder.alternativeNameTextView.setText(film.getAlternativeName());
         holder.yearTextView.setText(String.valueOf(film.getYear()));
+        holder.ratingTextView.setText(String.valueOf(film.getRating().getRating()));
     }
 
     @Override
@@ -47,29 +46,27 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
         return films.size();
     }
 
-    public void setFilms(List<FilmDTO> films) {
-        this.films = films;
+    public void addFilms(List<ShortFilmDTO> films) {
+        this.films.addAll(films);
         this.notifyDataSetChanged();
     }
 
-    public List<FilmDTO> getFilms() {
-        return this.films;
+    public boolean isEmpty() {
+        return films.isEmpty();
     }
 
     public static class FilmViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        CardView cardView;
-        ImageView posterImageView;
-        TextView alternativeNameTextView;
-        TextView yearTextView;
-        ImageView favoriteImageView;
-        ImageView lookedImageView;
-        TextView ratingTextView;
+        private ImageView posterImageView;
+        private TextView alternativeNameTextView;
+        private TextView yearTextView;
+        private ImageView favoriteImageView;
+        private ImageView lookedImageView;
+        private TextView ratingTextView;
 
         public FilmViewHolder(View itemView) {
             super(itemView);
 
-            cardView = (CardView) itemView.findViewById(R.id.card_view_item);
             posterImageView = (ImageView) itemView.findViewById(R.id.poster_item);
             alternativeNameTextView = (TextView) itemView.findViewById(R.id.alternative_name_item);
             yearTextView = (TextView) itemView.findViewById(R.id.year_item);

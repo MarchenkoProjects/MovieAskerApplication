@@ -1,13 +1,9 @@
 package mos.edu.client.movieasker.fragment;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
+import mos.edu.client.movieasker.Constants;
 import mos.edu.client.movieasker.R;
 import mos.edu.client.movieasker.ThisApplication;
+import mos.edu.client.movieasker.db.User;
 
 public class FavoriteFragment extends AbstractFragment {
 
@@ -18,24 +14,32 @@ public class FavoriteFragment extends AbstractFragment {
     }
 
     public FavoriteFragment() {
-        setTitle(ThisApplication.getInstance().getString(R.string.favorite_item_title));
+        super(ThisApplication.getInstance().getString(R.string.favorite_item_title));
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
+    protected boolean contentLoad(int page, int size) {
+        final User user = ThisApplication.getInstance().getUser();
+        if (user != null) {
+            loadContentTask = new LoadContentTask(this, Constants.URI.GET_USER_FAVORITE);
+            loadContentTask.execute(
+                    String.valueOf(user.getGlobalId()),
+                    String.valueOf(page),
+                    String.valueOf(size)
+            );
+        }
+        return true;
+    }
 
-        String messageContentEmpty;
-        if (ThisApplication.getInstance().getUser() == null) {
-            messageContentEmpty = ThisApplication.getInstance().getString(R.string.user_not_registered_content_text);
+    @Override
+    protected void setMessageContent() {
+        final User user = ThisApplication.getInstance().getUser();
+        if (user != null) {
+            contentMessageTextView.setText(ThisApplication.getInstance().getString(R.string.favorite_empty_content_text));
         }
         else {
-            messageContentEmpty = ThisApplication.getInstance().getString(R.string.favorite_empty_content_text);
+            contentMessageTextView.setText(ThisApplication.getInstance().getString(R.string.user_not_registered_content_text));
         }
-        contentEmptyTextView.setText(messageContentEmpty);
-
-        return view;
     }
 
 }

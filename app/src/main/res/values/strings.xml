@@ -37,9 +37,13 @@
     <string name="dialog_create_user_failed_message">Please try again later or check your internet connection</string>
     <string name="dialog_create_user_successful_title">Create User Successful</string>
     <string name="dialog_create_user_successful_message">Wonderful! You registered in MovieAsker system</string>
+    <string name="dialog_bad_internet_connection_title">Bad Internet connection</string>
+    <string name="dialog_bad_internet_connection_message">Check your Internet connection and click to repeat loading</string>
 
-    <string name="new_empty_content_text">New movies is not found\nCheck your Internet connection</string>
+    <string name="new_empty_content_text">New movies is not found</string>
     <string name="favorite_empty_content_text">You have not added movies to favorites</string>
     <string name="looked_empty_content_text">You have not added movies are looked</string>
     <string name="user_not_registered_content_text">You not registered in MovieAsker</string>
+
+    <string name="repeat_loading_content_title">Repeat loading</string>
 </resources>

@@ -8,19 +8,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/empty_content_text_view"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:layout_gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/empty_content_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/repeat_loading_content_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/repeat_loading_content_title"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/load_content_progressbar"
+        android:id="@+id/loading_content_progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_gravity = "center_vertical|center_horizontal|bottom"
         android:visibility="gone"
         style="?android:attr/progressBarStyleLarge" />
