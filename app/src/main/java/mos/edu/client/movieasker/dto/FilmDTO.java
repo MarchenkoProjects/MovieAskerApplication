@@ -15,7 +15,7 @@ public class FilmDTO extends ResourceSupport {
     private String originalName;
     private int year;
     private String description;
-    private byte duration;
+    private int duration;
     private String slogan;
     private long budget;
     private long worldFees;
@@ -87,11 +87,11 @@ public class FilmDTO extends ResourceSupport {
         this.description = description;
     }
 
-    public byte getDuration() {
+    public int getDuration() {
         return duration;
     }
 
-    public void setDuration(byte duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 

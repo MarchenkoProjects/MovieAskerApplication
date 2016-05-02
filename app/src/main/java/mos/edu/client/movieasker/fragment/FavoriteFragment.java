@@ -1,8 +1,8 @@
 package mos.edu.client.movieasker.fragment;
 
-import mos.edu.client.movieasker.Constants;
+import mos.edu.client.movieasker.app.Constants;
 import mos.edu.client.movieasker.R;
-import mos.edu.client.movieasker.ThisApplication;
+import mos.edu.client.movieasker.app.ThisApplication;
 import mos.edu.client.movieasker.db.User;
 
 public class FavoriteFragment extends AbstractFragment {
@@ -21,7 +21,7 @@ public class FavoriteFragment extends AbstractFragment {
     protected boolean contentLoad(int page, int size) {
         final User user = ThisApplication.getInstance().getUser();
         if (user != null) {
-            loadContentTask = new LoadContentTask(this, Constants.URI.GET_USER_FAVORITE);
+            loadContentTask = new LoadContentTask(this, Constants.URI.USER_FAVORITE);
             loadContentTask.execute(
                     String.valueOf(user.getGlobalId()),
                     String.valueOf(page),

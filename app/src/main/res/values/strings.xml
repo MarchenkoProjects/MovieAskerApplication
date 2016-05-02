@@ -46,4 +46,6 @@
     <string name="user_not_registered_content_text">You not registered in MovieAsker</string>
 
     <string name="repeat_loading_content_title">Repeat loading</string>
+
+    <string name="film_description_title">Description</string>
 </resources>

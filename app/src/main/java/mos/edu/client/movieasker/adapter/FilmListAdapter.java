@@ -12,22 +12,21 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-import mos.edu.client.movieasker.Constants;
+import mos.edu.client.movieasker.app.Constants;
 import mos.edu.client.movieasker.R;
 import mos.edu.client.movieasker.dto.ShortFilmDTO;
 
 public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmViewHolder> {
     private static final int ITEM_LAYOUT = R.layout.film_item;
 
-    private List<ShortFilmDTO> films;
+    private final List<ShortFilmDTO> films = new ArrayList<>();
 
-    public FilmListAdapter() {
-        this.films = new ArrayList<>();
-    }
+    private OnItemClickListener itemClickListener = null;
 
     @Override
     public FilmViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(ITEM_LAYOUT, parent, false);
+        final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        final View view = inflater.inflate(ITEM_LAYOUT, parent, false);
         return new FilmViewHolder(view);
     }
 
@@ -35,7 +34,11 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
     public void onBindViewHolder(FilmViewHolder holder, int position) {
         final ShortFilmDTO film = films.get(position);
 
-        ImageLoader.getInstance().displayImage(Constants.URI.POSTERS_URI + film.getPosterUrl(), holder.posterImageView);
+        holder.setOnItemClickListener(itemClickListener);
+        ImageLoader.getInstance().displayImage(
+                Constants.URI.POSTERS + film.getPosterUrl(),
+                holder.posterImageView
+        );
         holder.alternativeNameTextView.setText(film.getAlternativeName());
         holder.yearTextView.setText(String.valueOf(film.getYear()));
         holder.ratingTextView.setText(String.valueOf(film.getRating().getRating()));
@@ -48,7 +51,11 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
 
     public void addFilms(List<ShortFilmDTO> films) {
         this.films.addAll(films);
-        this.notifyDataSetChanged();
+        super.notifyDataSetChanged();
+    }
+
+    public ShortFilmDTO getFilm(int position) {
+        return films.get(position);
     }
 
     public boolean isEmpty() {
@@ -64,8 +71,11 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
         private ImageView lookedImageView;
         private TextView ratingTextView;
 
+        private OnItemClickListener itemClickListener = null;
+
         public FilmViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
 
             posterImageView = (ImageView) itemView.findViewById(R.id.poster_item);
             alternativeNameTextView = (TextView) itemView.findViewById(R.id.alternative_name_item);
@@ -80,16 +90,32 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
+                case R.id.card_view_container:
+                    if (itemClickListener != null) {
+                        itemClickListener.onItemClick(view, getLayoutPosition());
+                    }
+                    break;
                 case R.id.favorite_item:
                     favoriteImageView.setImageResource(R.mipmap.ic_heart_on);
                     break;
-
                 case R.id.looked_item:
                     lookedImageView.setImageResource(R.mipmap.ic_eye_on);
                     break;
             }
         }
 
+        public void setOnItemClickListener(OnItemClickListener listener) {
+            this.itemClickListener = listener;
+        }
+
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.itemClickListener = listener;
     }
 
 }

@@ -1,8 +1,8 @@
 package mos.edu.client.movieasker.fragment;
 
-import mos.edu.client.movieasker.Constants;
+import mos.edu.client.movieasker.app.Constants;
 import mos.edu.client.movieasker.R;
-import mos.edu.client.movieasker.ThisApplication;
+import mos.edu.client.movieasker.app.ThisApplication;
 
 public class NewFragment extends AbstractFragment {
 
@@ -18,7 +18,7 @@ public class NewFragment extends AbstractFragment {
 
     @Override
     protected boolean contentLoad(int page, int size) {
-        loadContentTask = new LoadContentTask(this, Constants.URI.FILMS_URI);
+        loadContentTask = new LoadContentTask(this, Constants.URI.FILMS);
         loadContentTask.execute(String.valueOf(page), String.valueOf(size));
         return true;
     }

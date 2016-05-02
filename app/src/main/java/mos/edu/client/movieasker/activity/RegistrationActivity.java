@@ -25,9 +25,9 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import mos.edu.client.movieasker.Constants;
+import mos.edu.client.movieasker.app.Constants;
 import mos.edu.client.movieasker.R;
-import mos.edu.client.movieasker.ThisApplication;
+import mos.edu.client.movieasker.app.ThisApplication;
 import mos.edu.client.movieasker.activity.dialog.DialogManager;
 import mos.edu.client.movieasker.db.DaoSession;
 import mos.edu.client.movieasker.db.User;
@@ -85,7 +85,7 @@ public class RegistrationActivity extends AppCompatActivity {
         else {
             final String passwordCrypt = getMD5Hash(password);
             final UserDTO user = new UserDTO(login, passwordCrypt, email);
-            new RegistrationTask().execute(user);
+            new RegistrationTask(this).execute(user);
         }
     }
 
@@ -220,17 +220,22 @@ public class RegistrationActivity extends AppCompatActivity {
         return passwordCrypt;
     }
 
-    private class RegistrationTask extends AsyncTask<UserDTO, Void, Integer> {
+    private static class RegistrationTask extends AsyncTask<UserDTO, Void, Integer> {
         public static final int BAD_INTERNET_CONNECTION_CODE = -1;
         public static final int OK_CODE = 0;
         public static final int LOGIN_EXISTS_CODE = 1;
 
-        private RestTemplate template = ThisApplication.getInstance().getRestTemplate();
+        private final RegistrationActivity registrationActivity;
+        private final RestTemplate template = ThisApplication.getInstance().getRestTemplate();
+
+        public RegistrationTask(RegistrationActivity registrationActivity) {
+            this.registrationActivity = registrationActivity;
+        }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            stateRegistrationProgressBar.setVisibility(View.VISIBLE);
+            registrationActivity.stateRegistrationProgressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -244,7 +249,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     return LOGIN_EXISTS_CODE;
                 }
 
-                response = template.postForEntity(Constants.URI.USERS_URI, user, UserDTO.class);
+                response = template.postForEntity(Constants.URI.USERS, user, UserDTO.class);
             } catch (RestClientException rce) {
                 return BAD_INTERNET_CONNECTION_CODE;
             }
@@ -270,17 +275,17 @@ public class RegistrationActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Integer resultCode) {
-            stateRegistrationProgressBar.setVisibility(View.GONE);
+            registrationActivity.stateRegistrationProgressBar.setVisibility(View.GONE);
 
             switch (resultCode) {
                 case LOGIN_EXISTS_CODE:
-                    Toast.makeText(RegistrationActivity.this, R.string.login_exists_warning, Toast.LENGTH_LONG).show();
+                    Toast.makeText(registrationActivity, R.string.login_exists_warning, Toast.LENGTH_LONG).show();
                     break;
                 case BAD_INTERNET_CONNECTION_CODE:
-                    DialogManager.showDialog(RegistrationActivity.this, DialogManager.CREATE_USER_FAILED_DIALOG);
+                    DialogManager.showDialog(registrationActivity, DialogManager.CREATE_USER_FAILED_DIALOG);
                     break;
                 case OK_CODE:
-                    DialogManager.showDialog(RegistrationActivity.this, DialogManager.CREATE_USER_SUCCESSFUL_DIALOG);
+                    DialogManager.showDialog(registrationActivity, DialogManager.CREATE_USER_SUCCESSFUL_DIALOG);
                     break;
             }
 
@@ -289,7 +294,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         private boolean checkUserLogin(String login) throws RestClientException {
             final ResponseEntity<UserDTO> response =
-                    template.getForEntity(Constants.URI.GET_USER_BY_LOGIN, UserDTO.class, login);
+                    template.getForEntity(Constants.URI.USER_BY_LOGIN, UserDTO.class, login);
             return response.getStatusCode() == HttpStatus.OK;
         }
 

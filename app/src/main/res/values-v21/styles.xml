@@ -1,12 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="AppThemeBase" parent="Theme.AppCompat.Light.NoActionBar" />
 
     <style name="AppThemeDefault" parent="AppThemeBase">
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorAccent">@color/color_primary</item>
+        <item name="colorAccent">@color/color_white</item>
         <item name="colorControlNormal">@color/color_white</item>
-    </style>
 
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
 </resources>

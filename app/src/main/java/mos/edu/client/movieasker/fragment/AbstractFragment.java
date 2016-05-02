@@ -1,5 +1,6 @@
 package mos.edu.client.movieasker.fragment;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,14 +23,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import mos.edu.client.movieasker.Constants;
 import mos.edu.client.movieasker.R;
-import mos.edu.client.movieasker.ThisApplication;
+import mos.edu.client.movieasker.activity.FilmActivity;
 import mos.edu.client.movieasker.activity.dialog.DialogManager;
 import mos.edu.client.movieasker.adapter.FilmListAdapter;
+import mos.edu.client.movieasker.app.Constants;
+import mos.edu.client.movieasker.app.ThisApplication;
 import mos.edu.client.movieasker.dto.ShortFilmDTO;
 
-public abstract class AbstractFragment extends Fragment {
+public abstract class AbstractFragment extends Fragment implements FilmListAdapter.OnItemClickListener {
     protected static final int FRAGMENT_LAYOUT = R.layout.fragment_content;
 
     private final String title;
@@ -63,6 +65,7 @@ public abstract class AbstractFragment extends Fragment {
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(endlessScrollListener);
 
@@ -78,6 +81,12 @@ public abstract class AbstractFragment extends Fragment {
         showMessageContent();
 
         return view;
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        final ShortFilmDTO film = adapter.getFilm(position);
+        showFilmDescription(film.getIdFilm());
     }
 
     private final OnEndlessScrollListener endlessScrollListener = new OnEndlessScrollListener() {
@@ -127,7 +136,12 @@ public abstract class AbstractFragment extends Fragment {
 
     private void showBadInternetConnectionDialog() {
         DialogManager.showDialog(this.getContext(), DialogManager.BAD_INTERNET_CONNECTION);
+    }
 
+    private void showFilmDescription(int filmId) {
+        final Intent filmActivity = new Intent(getContext(), FilmActivity.class);
+        filmActivity.putExtra(FilmActivity.FILM_ID_PARAM, filmId);
+        startActivity(filmActivity);
     }
 
     protected static abstract class OnEndlessScrollListener extends RecyclerView.OnScrollListener {
@@ -195,7 +209,7 @@ public abstract class AbstractFragment extends Fragment {
                     return Collections.emptyList();
                 }
             } catch (RestClientException e) {
-                return Collections.emptyList();
+                return null;
             }
 
             return response.getBody().getContent();
@@ -205,10 +219,10 @@ public abstract class AbstractFragment extends Fragment {
         protected void onPostExecute(Collection<ShortFilmDTO> films) {
             fragment.loadingContentProgressBar.setVisibility(View.GONE);
 
-            if (films.isEmpty()) {
+            if (films == null) {
                 fragment.showBadInternetConnectionDialog();
                 fragment.repeatLoadingButton.setVisibility(View.VISIBLE);
-            } else {
+            } else if (!films.isEmpty()) {
                 fragment.adapter.addFilms(new ArrayList<>(films));
                 fragment.showMessageContent();
             }

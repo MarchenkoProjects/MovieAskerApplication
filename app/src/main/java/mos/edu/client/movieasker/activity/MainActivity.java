@@ -15,9 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import mos.edu.client.movieasker.Constants;
+import mos.edu.client.movieasker.app.Constants;
 import mos.edu.client.movieasker.R;
-import mos.edu.client.movieasker.ThisApplication;
+import mos.edu.client.movieasker.app.ThisApplication;
 import mos.edu.client.movieasker.adapter.TabsFragmentPagerAdapter;
 import mos.edu.client.movieasker.db.User;
 import mos.edu.client.movieasker.fragment.FavoriteFragment;
@@ -138,15 +138,15 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 private void showNewTab() {
-                    viewPager.setCurrentItem(Constants.NEW_TAB_POSITION);
+                    viewPager.setCurrentItem(Constants.TAB.NEW_POSITION);
                 }
 
                 private void showFavoriteTab() {
-                    viewPager.setCurrentItem(Constants.FAVORITE_TAB_POSITION);
+                    viewPager.setCurrentItem(Constants.TAB.FAVORITE_POSITION);
                 }
 
                 private void showLookedTab() {
-                    viewPager.setCurrentItem(Constants.LOOKED_TAB_POSITION);
+                    viewPager.setCurrentItem(Constants.TAB.LOOKED_POSITION);
                 }
 
             };

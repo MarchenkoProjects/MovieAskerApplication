@@ -1,4 +1,4 @@
-package mos.edu.client.movieasker;
+package mos.edu.client.movieasker.app;
 
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,12 +9,14 @@ import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 
+import mos.edu.client.movieasker.R;
 import mos.edu.client.movieasker.db.DaoMaster;
 import mos.edu.client.movieasker.db.DaoSession;
 import mos.edu.client.movieasker.db.User;
@@ -66,11 +68,12 @@ public final class ThisApplication extends Application {
         final DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .cacheOnDisk(true)
+                .displayer(new RoundedBitmapDisplayer(25))
                 .build();
 
         final ImageLoaderConfiguration config =
                 new ImageLoaderConfiguration.Builder(this)
-                .memoryCacheExtraOptions(R.dimen.film_item_poster_width, R.dimen.film_item_poster_height)
+                .memoryCacheExtraOptions(R.dimen.film_poster_width, R.dimen.film_poster_height)
                 .threadPoolSize(3)
                 .threadPriority(Thread.MIN_PRIORITY + 2)
                 .denyCacheImageMultipleSizesInMemory()
