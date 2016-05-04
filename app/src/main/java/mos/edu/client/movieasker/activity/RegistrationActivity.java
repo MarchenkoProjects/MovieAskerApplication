@@ -25,10 +25,10 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import mos.edu.client.movieasker.app.Constants;
 import mos.edu.client.movieasker.R;
-import mos.edu.client.movieasker.app.ThisApplication;
 import mos.edu.client.movieasker.activity.dialog.DialogManager;
+import mos.edu.client.movieasker.app.Constants;
+import mos.edu.client.movieasker.app.ThisApplication;
 import mos.edu.client.movieasker.db.DaoSession;
 import mos.edu.client.movieasker.db.User;
 import mos.edu.client.movieasker.db.UserDao;
@@ -118,7 +118,6 @@ public class RegistrationActivity extends AppCompatActivity {
 
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.mipmap.ic_arrow_back);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }

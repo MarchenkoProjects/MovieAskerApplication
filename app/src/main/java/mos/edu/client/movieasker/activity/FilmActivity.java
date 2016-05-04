@@ -6,8 +6,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -15,17 +20,13 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import junit.framework.Assert;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
-
 import mos.edu.client.movieasker.R;
 import mos.edu.client.movieasker.activity.dialog.DialogManager;
+import mos.edu.client.movieasker.adapter.FilmListAdapter;
+import mos.edu.client.movieasker.adapter.PersonListAdapter;
 import mos.edu.client.movieasker.app.Constants;
 import mos.edu.client.movieasker.app.ThisApplication;
 import mos.edu.client.movieasker.dto.FilmDTO;
@@ -45,9 +46,17 @@ public class FilmActivity extends AppCompatActivity {
     private TextView countriesTextView;
     private TextView sloganTextView;
 
+    private TextView producersTextView;
+    private TextView writersTextView;
+    private TextView directorsTextView;
+
     private TextView descriptionTextView;
 
+    private ProgressBar loadFilmProgressBar;
+
     private LoadFilmTask loadFilmTask = null;
+
+    private PersonListAdapter adapter = new PersonListAdapter();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,6 +90,7 @@ public class FilmActivity extends AppCompatActivity {
 
     private void loadViews() {
         initToolbar();
+        initPersonsRecyclerView();
 
         posterImageView = (ImageView) findViewById(R.id.poster_film);
         alternativeNameTextView = (TextView) findViewById(R.id.alternative_name_film);
@@ -93,7 +103,13 @@ public class FilmActivity extends AppCompatActivity {
 
         sloganTextView = (TextView) findViewById(R.id.slogan_film);
 
+        producersTextView = (TextView) findViewById(R.id.producers_film);
+        writersTextView = (TextView) findViewById(R.id.writers_film);
+        directorsTextView = (TextView) findViewById(R.id.directors_film);
+
         descriptionTextView = (TextView) findViewById(R.id.description_film);
+
+        loadFilmProgressBar = (ProgressBar) findViewById(R.id.loading_film_progressbar);
     }
 
     private void initToolbar() {
@@ -105,8 +121,17 @@ public class FilmActivity extends AppCompatActivity {
 
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.mipmap.ic_arrow_back);
             actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    private void initPersonsRecyclerView() {
+        RecyclerView personRecyclerView = (RecyclerView) findViewById(R.id.persons_recycler_view);
+        if (personRecyclerView != null) {
+            personRecyclerView.setLayoutManager(
+                    new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            );
+            personRecyclerView.setAdapter(adapter);
         }
     }
 
@@ -124,12 +149,59 @@ public class FilmActivity extends AppCompatActivity {
         }
     }
 
+    private void bindViewFilm(FilmDTO film) {
+        ImageLoader.getInstance().displayImage(
+                Constants.URI.POSTERS + film.getPosterUrl(),
+                posterImageView,
+                FilmListAdapter.IMAGE_OPTIONS
+        );
+
+        alternativeNameTextView.setText(film.getAlternativeName());
+        originalNameTextView.setText(film.getOriginalName());
+        sloganTextView.setText(film.getSlogan());
+
+        yearTextView.setText(String.valueOf(film.getYear()));
+        genresTextView.setText(film.getGenresCommaDelimitedString());
+        durationTextView.setText(film.getDurationPrettyFormatString());
+        countriesTextView.setText(film.getCountriesCommaDelimitedString());
+
+        producersTextView.setText(film.getProducersCommaDelimitedString());
+        writersTextView.setText(film.getWritersCommaDelimitedString());
+        directorsTextView.setText(film.getDirectorsCommaDelimitedString());
+
+        adapter.setPersons(film.getActors());
+
+        descriptionTextView.setText(film.getDescription());
+    }
+
+    private void showLoadingProgressBar(boolean show) {
+        ScrollView contentScrollView = (ScrollView) findViewById(R.id.film_content_scroll_view);
+        if (show) {
+            if (contentScrollView != null) {
+                contentScrollView.setVisibility(View.INVISIBLE);
+            }
+            loadFilmProgressBar.setVisibility(View.VISIBLE);
+        }
+        else {
+            loadFilmProgressBar.setVisibility(View.GONE);
+            if (contentScrollView != null) {
+                contentScrollView.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     private static class LoadFilmTask extends AsyncTask<Integer, Void, FilmDTO> {
 
         private FilmActivity activity;
 
         public LoadFilmTask(FilmActivity activity) {
             attachActivity(activity);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            activity.showLoadingProgressBar(true);
         }
 
         @Override
@@ -158,44 +230,11 @@ public class FilmActivity extends AppCompatActivity {
                 DialogManager.showDialog(activity, DialogManager.BAD_INTERNET_CONNECTION);
             }
             else {
-                ImageLoader.getInstance().displayImage(
-                        Constants.URI.POSTERS + film.getPosterUrl(),
-                        activity.posterImageView
-                );
-
-                activity.alternativeNameTextView.setText(film.getAlternativeName());
-                activity.originalNameTextView.setText(film.getOriginalName());
-                activity.yearTextView.setText(String.valueOf(film.getYear()));
-
-                List<FilmDTO.GenreDTO> genres = film.getGenres();
-                List<String> genresName = new ArrayList<>();
-                for (FilmDTO.GenreDTO genre : genres) {
-                    genresName.add(genre.getGenreRu());
-                }
-                String joinGenres = StringUtils.collectionToDelimitedString(genresName, ", ");
-                activity.genresTextView.setText(joinGenres);
-
-                int duration = film.getDuration();
-                long hour = TimeUnit.MINUTES.toHours(duration);
-                long minute = duration - TimeUnit.HOURS.toMinutes(hour);
-                String durationFormat = String.format(Locale.getDefault(), "%02d ч. %02d мин.", hour, minute);
-                activity.durationTextView.setText(durationFormat);
-
-                List<FilmDTO.CountryDTO> countries = film.getCountries();
-                List<String> countriesName = new ArrayList<>();
-                for (FilmDTO.CountryDTO country : countries) {
-                    countriesName.add(country.getCountryRu());
-                }
-                String joinCountries = StringUtils.collectionToDelimitedString(countriesName, ", ");
-                activity.countriesTextView.setText(joinCountries);
-
-                activity.descriptionTextView.setText(film.getDescription());
-
-                activity.sloganTextView.setText(film.getSlogan());
+                activity.bindViewFilm(film);
             }
 
+            activity.showLoadingProgressBar(false);
             activity = null;
-
             super.onPostExecute(film);
         }
 

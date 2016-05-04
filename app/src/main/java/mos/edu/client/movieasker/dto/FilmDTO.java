@@ -3,8 +3,12 @@ package mos.edu.client.movieasker.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FilmDTO extends ResourceSupport {
@@ -91,6 +95,12 @@ public class FilmDTO extends ResourceSupport {
         return duration;
     }
 
+    public String getDurationPrettyFormatString() {
+        final long hour = TimeUnit.MINUTES.toHours(duration);
+        final long minute = duration - TimeUnit.HOURS.toMinutes(hour);
+        return String.format(Locale.getDefault(), "%d ч. %02d мин.", hour, minute);
+    }
+
     public void setDuration(int duration) {
         this.duration = duration;
     }
@@ -123,12 +133,28 @@ public class FilmDTO extends ResourceSupport {
         return genres;
     }
 
+    public String getGenresCommaDelimitedString() {
+        final List<String> genreNames = new ArrayList<>();
+        for (final FilmDTO.GenreDTO genre : genres) {
+            genreNames.add(genre.getGenreRu());
+        }
+        return StringUtils.collectionToDelimitedString(genreNames, ", ");
+    }
+
     public void setGenres(List<GenreDTO> genres) {
         this.genres = genres;
     }
 
     public List<CountryDTO> getCountries() {
         return countries;
+    }
+
+    public String getCountriesCommaDelimitedString() {
+        final List<String> countryNames = new ArrayList<>();
+        for (final FilmDTO.CountryDTO country : countries) {
+            countryNames.add(country.getCountryRu());
+        }
+        return StringUtils.collectionToDelimitedString(countryNames, ", ");
     }
 
     public void setCountries(List<CountryDTO> countries) {
@@ -139,6 +165,14 @@ public class FilmDTO extends ResourceSupport {
         return writers;
     }
 
+    public String getWritersCommaDelimitedString() {
+        final List<String> writerNames = new ArrayList<>();
+        for (final FilmDTO.PersonDTO writer : writers) {
+            writerNames.add(writer.getNameRu());
+        }
+        return StringUtils.collectionToDelimitedString(writerNames, ", ");
+    }
+
     public void setWriters(List<PersonDTO> writers) {
         this.writers = writers;
     }
@@ -147,12 +181,28 @@ public class FilmDTO extends ResourceSupport {
         return producers;
     }
 
+    public String getProducersCommaDelimitedString() {
+        final List<String> producerNames = new ArrayList<>();
+        for (final FilmDTO.PersonDTO producer : producers) {
+            producerNames.add(producer.getNameRu());
+        }
+        return StringUtils.collectionToDelimitedString(producerNames, ", ");
+    }
+
     public void setProducers(List<PersonDTO> producers) {
         this.producers = producers;
     }
 
     public List<PersonDTO> getDirectors() {
         return directors;
+    }
+
+    public String getDirectorsCommaDelimitedString() {
+        final List<String> directorNames = new ArrayList<>();
+        for (final FilmDTO.PersonDTO director : directors) {
+            directorNames.add(director.getNameRu());
+        }
+        return StringUtils.collectionToDelimitedString(directorNames, ", ");
     }
 
     public void setDirectors(List<PersonDTO> directors) {

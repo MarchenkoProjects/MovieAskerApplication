@@ -7,17 +7,28 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import mos.edu.client.movieasker.app.Constants;
 import mos.edu.client.movieasker.R;
+import mos.edu.client.movieasker.app.Constants;
 import mos.edu.client.movieasker.dto.ShortFilmDTO;
 
 public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmViewHolder> {
     private static final int ITEM_LAYOUT = R.layout.film_item;
+
+    public static final DisplayImageOptions IMAGE_OPTIONS = new DisplayImageOptions.Builder()
+            .cacheInMemory(true)
+            .cacheOnDisk(true)
+            .showImageForEmptyUri(R.drawable.no_poster)
+            .showImageOnFail(R.drawable.no_poster)
+            .showImageOnLoading(R.drawable.no_poster)
+            .displayer(new RoundedBitmapDisplayer(25))
+            .build();
 
     private final List<ShortFilmDTO> films = new ArrayList<>();
 
@@ -37,7 +48,8 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.FilmVi
         holder.setOnItemClickListener(itemClickListener);
         ImageLoader.getInstance().displayImage(
                 Constants.URI.POSTERS + film.getPosterUrl(),
-                holder.posterImageView
+                holder.posterImageView,
+                IMAGE_OPTIONS
         );
         holder.alternativeNameTextView.setText(film.getAlternativeName());
         holder.yearTextView.setText(String.valueOf(film.getYear()));

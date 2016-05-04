@@ -2,20 +2,23 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_background"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context=".activity.RegistrationActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppThemeBase.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/registration_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+            app:popupTheme="@style/AppThemeBase.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
@@ -99,7 +102,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_gravity = "center_vertical|center_horizontal|bottom"
+        android:layout_gravity = "center_horizontal|bottom"
         android:visibility="gone"
         style="?android:attr/progressBarStyleLarge" />
 

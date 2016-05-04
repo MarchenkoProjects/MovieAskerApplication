@@ -2,23 +2,28 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_background">
+    android:background="@color/color_background"
+    android:fitsSystemWindows="true"
+    tools:context=".activity.FilmActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppThemeBase.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/film_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+            app:popupTheme="@style/AppThemeBase.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
+        android:id="@+id/film_content_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
@@ -40,8 +45,7 @@
                 <ImageView
                     android:id="@+id/poster_film"
                     android:layout_width="@dimen/film_poster_width"
-                    android:layout_height="@dimen/film_poster_height"
-                    android:src="@drawable/no_poster" />
+                    android:layout_height="@dimen/film_poster_height" />
 
                 <TableLayout
                     android:layout_width="match_parent"
@@ -52,12 +56,11 @@
                     <TableRow>
                         <TextView
                             android:id="@+id/alternative_name_film"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_span="3"
+                            android:layout_span="4"
                             android:gravity="center"
-                            android:text="Властелин колец: Возвращение короля"
-                            android:textSize="22sp"
+                            android:textSize="20sp"
                             android:textStyle="bold"
                             android:typeface="serif" />
                     </TableRow>
@@ -65,12 +68,11 @@
                     <TableRow>
                         <TextView
                             android:id="@+id/original_name_film"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_span="3"
+                            android:layout_span="4"
                             android:gravity="center"
-                            android:text="The lord of the Ring: Return of the king"
-                            android:textSize="14sp"
+                            android:textSize="12sp"
                             android:textStyle="italic"
                             android:typeface="serif" />
                     </TableRow>
@@ -78,9 +80,9 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:background="@color/color_primary" />
+                        android:layout_marginTop="@dimen/film_view_vertical_margin"
+                        android:layout_marginBottom="@dimen/film_view_vertical_margin"
+                        android:background="@color/color_primary_dark" />
 
                     <TableRow
                         android:gravity="center_vertical">
@@ -88,7 +90,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_column="0"
-                            android:text="Год выхода"
+                            android:text="@string/film_year_text"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:typeface="serif" />
@@ -97,8 +99,7 @@
                             android:id="@+id/year_film"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_span="2"
-                            android:text="2003"
+                            android:layout_span="3"
                             android:textSize="14sp"
                             android:typeface="serif" />
                     </TableRow>
@@ -109,7 +110,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_column="0"
-                            android:text="Жанры"
+                            android:text="@string/film_genres_text"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:typeface="serif" />
@@ -118,8 +119,7 @@
                             android:id="@+id/genres_film"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_span="2"
-                            android:text="Боевик, Драма, Приключение, Фантастика"
+                            android:layout_span="3"
                             android:textSize="14sp"
                             android:typeface="serif" />
                     </TableRow>
@@ -130,7 +130,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_column="0"
-                            android:text="Время"
+                            android:text="@string/film_duration_text"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:typeface="serif" />
@@ -139,8 +139,7 @@
                             android:id="@+id/duration_film"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_span="2"
-                            android:text="3 ч. 21 мин."
+                            android:layout_span="3"
                             android:textSize="14sp"
                             android:typeface="serif" />
                     </TableRow>
@@ -151,7 +150,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_column="0"
-                            android:text="Страны"
+                            android:text="@string/film_countries_text"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             android:typeface="serif" />
@@ -160,8 +159,7 @@
                             android:id="@+id/countries_film"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_span="2"
-                            android:text="США, Новая Зеландия"
+                            android:layout_span="3"
                             android:textSize="14sp"
                             android:typeface="serif" />
                     </TableRow>
@@ -169,18 +167,17 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:background="@color/color_primary" />
+                        android:layout_marginTop="@dimen/film_view_vertical_margin"
+                        android:layout_marginBottom="@dimen/film_view_vertical_margin"
+                        android:background="@color/color_primary_dark" />
 
                     <TableRow>
                         <TextView
                             android:id="@+id/slogan_film"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_span="3"
+                            android:layout_span="4"
                             android:gravity="center"
-                            android:text="«There can be no triumph without loss. No victory without suffering. No freedom without sacrifice»"
                             android:textStyle="bold|italic"
                             android:textSize="14sp"
                             android:typeface="serif" />
@@ -191,17 +188,126 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@color/color_primary" />
+                    android:layout_marginTop="@dimen/film_view_vertical_margin"
+                    android:layout_marginBottom="@dimen/film_view_vertical_margin"
+                    android:background="@color/color_primary_dark" />
 
             </LinearLayout>
 
-            <View
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/film_view_vertical_margin"
+                android:layout_marginBottom="@dimen/film_view_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:text="@string/film_creators_block_title"
+                android:textColor="@color/color_background"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:typeface="serif"
+                android:background="@color/color_primary_dark" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:stretchColumns="*">
+
+                <TableRow
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:text="@string/film_producers_text"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:typeface="serif" />
+
+                    <TextView
+                        android:id="@+id/producers_film"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_span="5"
+                        android:textSize="14sp"
+                        android:typeface="serif" />
+                </TableRow>
+
+                <TableRow
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:text="@string/film_writers_text"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:typeface="serif" />
+
+                    <TextView
+                        android:id="@+id/writers_film"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_span="5"
+                        android:textSize="14sp"
+                        android:typeface="serif" />
+                </TableRow>
+
+                <TableRow
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_column="0"
+                        android:text="@string/film_directors_text"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:typeface="serif" />
+
+                    <TextView
+                        android:id="@+id/directors_film"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_span="5"
+                        android:textSize="14sp"
+                        android:typeface="serif" />
+                </TableRow>
+
+            </TableLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/film_view_vertical_margin"
+                android:layout_marginBottom="@dimen/film_view_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:text="@string/film_actors_block_title"
+                android:textColor="@color/color_background"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:typeface="serif"
+                android:background="@color/color_primary_dark" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/persons_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/film_view_vertical_margin"
+                android:layout_marginBottom="@dimen/film_view_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:text="@string/film_about_block_title"
+                android:textColor="@color/color_background"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:typeface="serif"
                 android:background="@color/color_primary_dark" />
 
             <TextView
@@ -210,18 +316,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:text="Войска Сарумана разбиты, но самый страшный враг свободных народов Средиземья продолжает набирать мощь, его орды вот-вот обрушаться на Гондор, последний оплот людей. Фродо и Сэм почти добрались до цели, но между ними и роковой горой стоит целое полчище орков. Судьба Средиземья решится здесь, под стенами Минас-Тирита, если город падет, надежды не останется. Арагорн встает во главе войска людей, последний из почти угасшего рода Нуменорских королей, бросает вызов Темному Владыке, ведь только так можно дать шанс Фродо и Сэму добраться до роковой горы."
-                android:textSize="16dp"
+                android:textSize="14sp"
                 android:typeface="serif" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="@dimen/film_view_vertical_margin"
+                android:layout_marginBottom="@dimen/film_view_vertical_margin"
                 android:background="@color/color_primary_dark" />
 
         </LinearLayout>
     </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/loading_film_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity = "center_vertical|center_horizontal"
+        android:visibility="gone"
+        style="?android:attr/progressBarStyleLarge" />
 
 </android.support.design.widget.CoordinatorLayout>

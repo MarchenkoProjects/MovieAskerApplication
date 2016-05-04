@@ -6,10 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import org.springframework.web.client.RestTemplate;
@@ -65,14 +63,7 @@ public final class ThisApplication extends Application {
     private void initImageLoader() {
         final File cacheDir = StorageUtils.getCacheDirectory(getApplicationContext());
 
-        final DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .displayer(new RoundedBitmapDisplayer(25))
-                .build();
-
-        final ImageLoaderConfiguration config =
-                new ImageLoaderConfiguration.Builder(this)
+        final ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
                 .memoryCacheExtraOptions(R.dimen.film_poster_width, R.dimen.film_poster_height)
                 .threadPoolSize(3)
                 .threadPriority(Thread.MIN_PRIORITY + 2)
@@ -84,7 +75,6 @@ public final class ThisApplication extends Application {
                 .diskCacheSize(5 * 1024 * 1024)
                 .diskCacheFileCount(100)
                 .diskCacheFileNameGenerator(new HashCodeFileNameGenerator())
-                .defaultDisplayImageOptions(options)
                 .build();
 
         ImageLoader.getInstance().init(config);

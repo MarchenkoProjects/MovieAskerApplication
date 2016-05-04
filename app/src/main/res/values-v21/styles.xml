@@ -2,6 +2,10 @@
 <resources>
     <style name="AppThemeBase" parent="Theme.AppCompat.Light.NoActionBar" />
 
+    <style name="AppThemeBase.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppThemeBase.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
     <style name="AppThemeDefault" parent="AppThemeBase">
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorPrimary">@color/color_primary</item>

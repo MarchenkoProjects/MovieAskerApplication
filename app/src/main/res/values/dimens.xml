@@ -11,9 +11,13 @@
 
     <dimen name="film_item_vertical_margin">5dp</dimen>
     <dimen name="film_item_horizontal_margin">12dp</dimen>
-
     <dimen name="film_poster_width">200dp</dimen>
     <dimen name="film_poster_height">280dp</dimen>
+    <dimen name="film_view_vertical_margin">5dp</dimen>
+
+    <dimen name="person_photo_width">80dp</dimen>
+    <dimen name="person_photo_height">100dp</dimen>
+    <dimen name="person_name_width">80dp</dimen>
 
     <dimen name="tab_indicator_height">4dp</dimen>
 </resources>
