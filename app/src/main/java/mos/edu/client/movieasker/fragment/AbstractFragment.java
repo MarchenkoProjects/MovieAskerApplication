@@ -30,8 +30,10 @@ import mos.edu.client.movieasker.adapter.FilmListAdapter;
 import mos.edu.client.movieasker.app.Constants;
 import mos.edu.client.movieasker.app.ThisApplication;
 import mos.edu.client.movieasker.dto.ShortFilmDTO;
+import mos.edu.client.movieasker.listener.OnEndlessScrollListener;
+import mos.edu.client.movieasker.listener.OnItemClickListener;
 
-public abstract class AbstractFragment extends Fragment implements FilmListAdapter.OnItemClickListener {
+public abstract class AbstractFragment extends Fragment implements OnItemClickListener {
     protected static final int FRAGMENT_LAYOUT = R.layout.fragment_content;
 
     private final String title;
@@ -144,47 +146,10 @@ public abstract class AbstractFragment extends Fragment implements FilmListAdapt
         startActivity(filmActivity);
     }
 
-    protected static abstract class OnEndlessScrollListener extends RecyclerView.OnScrollListener {
-
-        private int currentPage = 0;
-        private boolean loading = false;
-        private int prevTotalItemCount = 0;
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-
-            if (dy > 0) {
-                final LinearLayoutManager layoutManager =
-                        (LinearLayoutManager) recyclerView.getLayoutManager();
-
-                final int totalItemCount = layoutManager.getItemCount();
-
-                if (loading && (totalItemCount > prevTotalItemCount)) {
-                    prevTotalItemCount = totalItemCount;
-                    loading = false;
-                }
-
-                final int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-                final int visibleItemCount = layoutManager.getChildCount();
-
-                if (!loading && (firstVisibleItemPosition + visibleItemCount >= totalItemCount)) {
-                    currentPage++;
-                    loading = onLoadMore(currentPage, Constants.ELEMENTS_ON_PAGE);
-                    if (!loading) {
-                        currentPage--;
-                    }
-                }
-            }
-        }
-
-        public abstract boolean onLoadMore(int page, int size);
-    }
-
     protected static class LoadContentTask extends AsyncTask<String, Void, Collection<ShortFilmDTO>> {
 
         private AbstractFragment fragment;
-        private final String contentUri;
+        protected final String contentUri;
 
         public LoadContentTask(AbstractFragment fragment, String contentUri) {
             this.fragment = fragment;
@@ -205,11 +170,12 @@ public abstract class AbstractFragment extends Fragment implements FilmListAdapt
             final ResponseEntity<ShortFilmDTO> response;
             try {
                 response = template.getForEntity(contentUri, ShortFilmDTO.class, (Object[]) params);
-                if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
-                    return Collections.emptyList();
-                }
             } catch (RestClientException e) {
                 return null;
+            }
+
+            if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
+                return Collections.emptyList();
             }
 
             return response.getBody().getContent();

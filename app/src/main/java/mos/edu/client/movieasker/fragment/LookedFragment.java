@@ -21,7 +21,7 @@ public class LookedFragment extends AbstractFragment {
     protected boolean contentLoad(int page, int size) {
         final User user = ThisApplication.getInstance().getUser();
         if (user != null) {
-            loadContentTask = new LoadContentTask(this, Constants.URI.USER_LOOKED);
+            loadContentTask = new FavoriteFragment.LoadFavoriteContentTask(this, Constants.URI.USER_LOOKED);
             loadContentTask.execute(
                     String.valueOf(user.getGlobalId()),
                     String.valueOf(page),
