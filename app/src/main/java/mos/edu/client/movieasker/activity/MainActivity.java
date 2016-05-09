@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.settings_navigation_item:
                             break;
                         case R.id.about_navigation_item:
+                            showAboutActivity();
                             break;
                     }
 
@@ -154,6 +155,12 @@ public class MainActivity extends AppCompatActivity {
                     final Intent registrationActivity =
                             new Intent(MainActivity.this, RegistrationActivity.class);
                     startActivity(registrationActivity);
+                }
+
+                private void showAboutActivity() {
+                    final Intent aboutActivity =
+                            new Intent(MainActivity.this, AboutActivity.class);
+                    startActivity(aboutActivity);
                 }
 
             };

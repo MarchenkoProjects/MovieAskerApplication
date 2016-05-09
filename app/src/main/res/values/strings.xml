@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">MovieAsker Alpha</string>
+    <string name="app_slogan">Кино на любой вкус</string>
 
     <string name="search_item_title">Поиск</string>
 
@@ -59,4 +60,11 @@
 
     <string name="film_to_favorite_text">Фильм добавлен в Избранное</string>
     <string name="film_to_looked_text">Фильм добавлен в Просмотренное</string>
+
+    <string name="about_title">О приложении</string>
+    <string name="about_app_text">MovieAsker - мультимедийное приложение разработанное для настоящих фанатов кино. Представьте себе Ваш личный публичный дневник кино, которым Вы можете поделиться с тысячами фанатов по всему миру. Пусть ваши друзья и знакомые узнают все о вашем кино-вкусе.</string>
+    <string name="about_developer_block_title">Разработчик</string>
+    <string name="about_developer_name">Марченко Олег</string>
+    <string name="about_idea_master_block_title">Идейный вдохновитель</string>
+    <string name="about_idea_master_name">Бондарь Маргарита</string>
 </resources>
