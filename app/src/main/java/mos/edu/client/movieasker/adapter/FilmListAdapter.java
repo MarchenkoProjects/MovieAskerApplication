@@ -73,6 +73,10 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmViewHolder> {
         return films.isEmpty();
     }
 
+    public void clearFilms() {
+        films.clear();
+    }
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.itemClickListener = listener;
     }

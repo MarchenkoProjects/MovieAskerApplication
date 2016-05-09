@@ -1,8 +1,9 @@
 package mos.edu.client.movieasker.fragment;
 
-import mos.edu.client.movieasker.app.Constants;
 import mos.edu.client.movieasker.R;
+import mos.edu.client.movieasker.app.Constants;
 import mos.edu.client.movieasker.app.ThisApplication;
+import mos.edu.client.movieasker.task.LoadContentTask;
 
 public class NewFragment extends AbstractFragment {
 

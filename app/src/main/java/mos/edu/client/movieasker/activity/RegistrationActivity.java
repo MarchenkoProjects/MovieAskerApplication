@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -16,23 +15,15 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
+import junit.framework.Assert;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import mos.edu.client.movieasker.R;
-import mos.edu.client.movieasker.activity.dialog.DialogManager;
-import mos.edu.client.movieasker.app.Constants;
-import mos.edu.client.movieasker.app.ThisApplication;
-import mos.edu.client.movieasker.db.DaoSession;
-import mos.edu.client.movieasker.db.User;
-import mos.edu.client.movieasker.db.UserDao;
 import mos.edu.client.movieasker.dto.UserDTO;
+import mos.edu.client.movieasker.task.RegistrationTask;
 
 public class RegistrationActivity extends AppCompatActivity {
     private static final int LAYOUT = R.layout.activity_registration;
@@ -41,11 +32,13 @@ public class RegistrationActivity extends AppCompatActivity {
     private static final int MIN_PASSWORD_LENGTH = 4;
     private static final int NORMAL_PASSWORD_LENGTH = 8;
 
-    private ProgressBar stateRegistrationProgressBar;
     private EditText loginEditText;
     private EditText passwordEditText;
     private EditText repeatPasswordEditText;
     private EditText emailEditText;
+    private ProgressBar stateProgressBar;
+
+    private RegistrationTask registrationTask = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +46,16 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(LAYOUT);
 
         loadViews();
+
+        checkRegistrationRunning();
+    }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        if (registrationTask != null && registrationTask.getStatus().equals(AsyncTask.Status.RUNNING)) {
+            return registrationTask;
+        }
+        return null;
     }
 
     public void createUserClick(View view) {
@@ -63,36 +66,37 @@ public class RegistrationActivity extends AppCompatActivity {
 
         if (login.isEmpty()) {
             Toast.makeText(this, R.string.login_empty_warning, Toast.LENGTH_SHORT).show();
-        }
-        else if (login.length() < MIN_LOGIN_LENGTH) {
+        } else if (login.length() < MIN_LOGIN_LENGTH) {
             Toast.makeText(this, R.string.login_length_warning, Toast.LENGTH_SHORT).show();
-        }
-        else if (password.isEmpty()) {
+        } else if (password.isEmpty()) {
             Toast.makeText(this, R.string.password_empty_warning, Toast.LENGTH_SHORT).show();
-        }
-        else if (password.length() < MIN_PASSWORD_LENGTH) {
+        } else if (password.length() < MIN_PASSWORD_LENGTH) {
             Toast.makeText(this, R.string.password_length_warning, Toast.LENGTH_SHORT).show();
-        }
-        else if (repeatPassword.isEmpty()) {
+        } else if (repeatPassword.isEmpty()) {
             Toast.makeText(this, R.string.repeat_password_empty_warning, Toast.LENGTH_SHORT).show();
-        }
-        else if (!password.equals(repeatPassword)) {
+        } else if (!password.equals(repeatPassword)) {
             Toast.makeText(this, R.string.passwords_not_equals_warning, Toast.LENGTH_SHORT).show();
-        }
-        else if (email.isEmpty()) {
+        } else if (email.isEmpty()) {
             Toast.makeText(this, R.string.email_empty_warning, Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
             final String passwordCrypt = getMD5Hash(password);
             final UserDTO user = new UserDTO(login, passwordCrypt, email);
             new RegistrationTask(this).execute(user);
         }
     }
 
+    public void showStateProgressBar(boolean isShow) {
+        if (isShow) {
+            stateProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            stateProgressBar.setVisibility(View.GONE);
+        }
+    }
+
     private void loadViews() {
         initToolbar();
 
-        stateRegistrationProgressBar = (ProgressBar) findViewById(R.id.state_registration_progressbar);
+        stateProgressBar = (ProgressBar) findViewById(R.id.state_registration_progressbar);
         loginEditText = (EditText) findViewById(R.id.login_edit_text);
         passwordEditText = (EditText) findViewById(R.id.password_edit_text);
         if (passwordEditText != null) {
@@ -139,11 +143,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
             if (length < MIN_PASSWORD_LENGTH) {
                 passwordEditText.setBackgroundResource(R.color.color_red);
-            }
-            else if (length >= MIN_PASSWORD_LENGTH && length < NORMAL_PASSWORD_LENGTH) {
+            } else if (length >= MIN_PASSWORD_LENGTH && length < NORMAL_PASSWORD_LENGTH) {
                 passwordEditText.setBackgroundResource(R.color.color_yellow);
-            }
-            else {
+            } else {
                 passwordEditText.setBackgroundResource(R.color.color_green);
             }
         }
@@ -167,14 +169,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
             if (passwordLength != repeatPasswordLength) {
                 repeatPasswordEditText.setBackgroundResource(R.color.color_red);
-            }
-            else {
+            } else {
                 final String password = passwordEditText.getText().toString();
                 final String repeatPassword = repeatPasswordEditText.getText().toString();
                 if (password.equals(repeatPassword)) {
                     repeatPasswordEditText.setBackgroundResource(R.color.color_green);
-                }
-                else {
+                } else {
                     repeatPasswordEditText.setBackgroundResource(R.color.color_red);
                 }
             }
@@ -187,8 +187,7 @@ public class RegistrationActivity extends AppCompatActivity {
             if (checked) {
                 passwordEditText.setTransformationMethod(null);
                 repeatPasswordEditText.setTransformationMethod(null);
-            }
-            else {
+            } else {
                 final PasswordTransformationMethod passwordTransformation =
                         new PasswordTransformationMethod();
                 passwordEditText.setTransformationMethod(passwordTransformation);
@@ -197,12 +196,22 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     };
 
+    private void checkRegistrationRunning() {
+        final Object lastCustomInstance = getLastCustomNonConfigurationInstance();
+        if (lastCustomInstance != null)  {
+            registrationTask = (RegistrationTask) lastCustomInstance;
+            if (registrationTask.getStatus().equals(AsyncTask.Status.RUNNING)) {
+                registrationTask.attachActivity(this);
+            }
+        }
+    }
+
     private String getMD5Hash(String password) {
         final String HASH_ALGORITHM = "MD5";
         final int HASH_OUT_LENGTH = 32;
         final int RADIX = 16;
 
-        String passwordCrypt = null;
+        String passwordCrypt = "";
         try {
             final MessageDigest messageDigest = MessageDigest.getInstance(HASH_ALGORITHM);
             messageDigest.reset();
@@ -213,90 +222,10 @@ public class RegistrationActivity extends AppCompatActivity {
                 passwordCrypt = "0" + passwordCrypt;
             }
         } catch (NoSuchAlgorithmException e) {
-            Log.e("App", "NoSuchAlgorithmException in getMD5Hash()");
+            Assert.assertTrue("NoSuchAlgorithmException in getMD5Hash()", false);
         }
 
         return passwordCrypt;
-    }
-
-    private static class RegistrationTask extends AsyncTask<UserDTO, Void, Integer> {
-        public static final int BAD_INTERNET_CONNECTION_CODE = -1;
-        public static final int OK_CODE = 0;
-        public static final int LOGIN_EXISTS_CODE = 1;
-
-        private final RegistrationActivity registrationActivity;
-        private final RestTemplate template = ThisApplication.getInstance().getRestTemplate();
-
-        public RegistrationTask(RegistrationActivity registrationActivity) {
-            this.registrationActivity = registrationActivity;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            registrationActivity.stateRegistrationProgressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Integer doInBackground(UserDTO... users) {
-            final UserDTO user = users[0];
-
-            final ResponseEntity<UserDTO> response;
-            try {
-                final boolean loginFound = checkUserLogin(user.getLogin());
-                if (loginFound) {
-                    return LOGIN_EXISTS_CODE;
-                }
-
-                response = template.postForEntity(Constants.URI.USERS, user, UserDTO.class);
-            } catch (RestClientException rce) {
-                return BAD_INTERNET_CONNECTION_CODE;
-            }
-
-            if (response.getStatusCode() == HttpStatus.CREATED) {
-                final UserDTO createdUser = response.getBody();
-
-                final User localUser = new User();
-                localUser.setGlobalId(createdUser.getIdUser());
-                localUser.setLogin(createdUser.getLogin());
-                localUser.setPassword(user.getPassword());
-                localUser.setEmail(createdUser.getEmail());
-
-                final DaoSession session = ThisApplication.getInstance().getSession();
-                final UserDao userDao = session.getUserDao();
-                userDao.insert(localUser);
-
-                return OK_CODE;
-            }
-
-            return BAD_INTERNET_CONNECTION_CODE;
-        }
-
-        @Override
-        protected void onPostExecute(Integer resultCode) {
-            registrationActivity.stateRegistrationProgressBar.setVisibility(View.GONE);
-
-            switch (resultCode) {
-                case LOGIN_EXISTS_CODE:
-                    Toast.makeText(registrationActivity, R.string.login_exists_warning, Toast.LENGTH_LONG).show();
-                    break;
-                case BAD_INTERNET_CONNECTION_CODE:
-                    DialogManager.showDialog(registrationActivity, DialogManager.CREATE_USER_FAILED_DIALOG);
-                    break;
-                case OK_CODE:
-                    DialogManager.showDialog(registrationActivity, DialogManager.CREATE_USER_SUCCESSFUL_DIALOG);
-                    break;
-            }
-
-            super.onPostExecute(resultCode);
-        }
-
-        private boolean checkUserLogin(String login) throws RestClientException {
-            final ResponseEntity<UserDTO> response =
-                    template.getForEntity(Constants.URI.USER_BY_LOGIN, UserDTO.class, login);
-            return response.getStatusCode() == HttpStatus.OK;
-        }
-
     }
 
 }

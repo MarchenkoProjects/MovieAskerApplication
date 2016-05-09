@@ -33,8 +33,6 @@
     <string name="login_exists_warning">Такой логин уже зарегистрирован</string>
 
     <string name="dialog_button_ok">OK</string>
-    <string name="dialog_create_user_failed_title">Пользователь не зарегистрирован</string>
-    <string name="dialog_create_user_failed_message">Пожалуйста повторите попытку позже или проверьте Интернет соединение</string>
     <string name="dialog_create_user_successful_title">Пользователь зарегистрирован</string>
     <string name="dialog_create_user_successful_message">Поздравляем! Вы зарегистрированы в MovieAsker</string>
     <string name="dialog_bad_internet_connection_title">Плохое Интернет соединение</string>
@@ -58,4 +56,7 @@
     <string name="film_creators_block_title">Создатели</string>
     <string name="film_actors_block_title">Актеры</string>
     <string name="film_about_block_title">Сюжет</string>
+
+    <string name="film_to_favorite_text">Фильм добавлен в Избранное</string>
+    <string name="film_to_looked_text">Фильм добавлен в Просмотренное</string>
 </resources>

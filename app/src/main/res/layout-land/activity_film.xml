@@ -183,14 +183,49 @@
                             android:typeface="serif" />
                     </TableRow>
 
-                </TableLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="@dimen/film_view_vertical_margin"
+                        android:layout_marginBottom="@dimen/film_view_vertical_margin"
+                        android:background="@color/color_primary_dark" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginTop="@dimen/film_view_vertical_margin"
-                    android:layout_marginBottom="@dimen/film_view_vertical_margin"
-                    android:background="@color/color_primary_dark" />
+                    <TableRow>
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_span="4">
+
+                            <ImageView
+                                android:id="@+id/favorite_film"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:src="@mipmap/ic_heart_off" />
+
+                            <ImageView
+                                android:id="@+id/looked_film"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:src="@mipmap/ic_eye_off" />
+
+                            <ImageView
+                                android:id="@+id/review_film"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:src="@mipmap/ic_review_off" />
+
+                        </LinearLayout>
+                    </TableRow>
+
+                </TableLayout>
 
             </LinearLayout>
 
@@ -292,7 +327,7 @@
                 android:background="@color/color_primary_dark" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/persons_recycler_view"
+                android:id="@+id/actors_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

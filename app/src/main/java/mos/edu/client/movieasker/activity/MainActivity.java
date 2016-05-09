@@ -1,6 +1,7 @@
 package mos.edu.client.movieasker.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -15,10 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import mos.edu.client.movieasker.app.Constants;
 import mos.edu.client.movieasker.R;
-import mos.edu.client.movieasker.app.ThisApplication;
 import mos.edu.client.movieasker.adapter.TabsFragmentPagerAdapter;
+import mos.edu.client.movieasker.app.Constants;
+import mos.edu.client.movieasker.app.ThisApplication;
 import mos.edu.client.movieasker.db.User;
 import mos.edu.client.movieasker.fragment.FavoriteFragment;
 import mos.edu.client.movieasker.fragment.LookedFragment;
@@ -27,6 +28,9 @@ import mos.edu.client.movieasker.fragment.NewFragment;
 public class MainActivity extends AppCompatActivity {
     private static final int LAYOUT = R.layout.activity_main;
     private static final int MENU = R.menu.menu_main;
+
+    private static final int NAVIGATION_HEADER_INDEX = 0;
+    private static final String CURRENT_TAB_ITEM_PREFS = "currentTabItem";
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -38,6 +42,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(LAYOUT);
 
         loadViews();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        setSavedCurrentTabItem();
+    }
+
+    @Override
+    protected void onPause() {
+        int currentTabItem = viewPager.getCurrentItem();
+        saveCurrentTabItem(currentTabItem);
+
+        super.onPause();
     }
 
     @Override
@@ -89,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     private void initUserProfileInNavigationHeader(NavigationView navigationView) {
         final User user = ThisApplication.getInstance().getUser();
         if (user != null) {
-            final View navigationHeader = navigationView.getHeaderView(0);
+            final View navigationHeader = navigationView.getHeaderView(NAVIGATION_HEADER_INDEX);
             TextView profileLoginTextView = (TextView) navigationHeader.findViewById(R.id.profile_login_text_view);
             profileLoginTextView.setText(user.getLogin());
 
@@ -114,13 +133,13 @@ public class MainActivity extends AppCompatActivity {
                             showRegistrationActivity();
                             break;
                         case R.id.new_navigation_item:
-                            showNewTab();
+                            showTabByItem(Constants.TAB.NEW_ITEM);
                             break;
                         case R.id.favorite_navigation_item:
-                            showFavoriteTab();
+                            showTabByItem(Constants.TAB.FAVORITE_ITEM);
                             break;
                         case R.id.looked_navigation_item:
-                            showLookedTab();
+                            showTabByItem(Constants.TAB.LOOKED_ITEM);
                             break;
                         case R.id.settings_navigation_item:
                             break;
@@ -135,18 +154,6 @@ public class MainActivity extends AppCompatActivity {
                     final Intent registrationActivity =
                             new Intent(MainActivity.this, RegistrationActivity.class);
                     startActivity(registrationActivity);
-                }
-
-                private void showNewTab() {
-                    viewPager.setCurrentItem(Constants.TAB.NEW_POSITION);
-                }
-
-                private void showFavoriteTab() {
-                    viewPager.setCurrentItem(Constants.TAB.FAVORITE_POSITION);
-                }
-
-                private void showLookedTab() {
-                    viewPager.setCurrentItem(Constants.TAB.LOOKED_POSITION);
                 }
 
             };
@@ -167,6 +174,23 @@ public class MainActivity extends AppCompatActivity {
         if (tabLayout != null) {
             tabLayout.setupWithViewPager(viewPager);
         }
+    }
+
+    private void saveCurrentTabItem(int currentTabItem) {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor preferencesEditor = preferences.edit();
+        preferencesEditor.putInt(CURRENT_TAB_ITEM_PREFS, currentTabItem);
+        preferencesEditor.apply();
+    }
+
+    private void setSavedCurrentTabItem() {
+        SharedPreferences preferences = getPreferences(MODE_PRIVATE);
+        int currentTabItem = preferences.getInt(CURRENT_TAB_ITEM_PREFS, Constants.TAB.NEW_ITEM);
+        showTabByItem(currentTabItem);
+    }
+
+    private void showTabByItem(int item) {
+        viewPager.setCurrentItem(item);
     }
 
 }

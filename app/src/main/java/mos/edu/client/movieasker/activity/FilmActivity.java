@@ -1,6 +1,5 @@
 package mos.edu.client.movieasker.activity;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,21 +16,18 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import junit.framework.Assert;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
-
 import mos.edu.client.movieasker.R;
-import mos.edu.client.movieasker.activity.dialog.DialogManager;
 import mos.edu.client.movieasker.adapter.FilmListAdapter;
 import mos.edu.client.movieasker.adapter.PersonListAdapter;
 import mos.edu.client.movieasker.app.Constants;
 import mos.edu.client.movieasker.app.ThisApplication;
+import mos.edu.client.movieasker.db.User;
 import mos.edu.client.movieasker.dto.FilmDTO;
+import mos.edu.client.movieasker.task.AddFilmToUserFavoriteTask;
+import mos.edu.client.movieasker.task.AddFilmToUserLookedTask;
+import mos.edu.client.movieasker.task.LoadFilmTask;
 
-public class FilmActivity extends AppCompatActivity {
+public class FilmActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int LAYOUT = R.layout.activity_film;
 
     public static final String FILM_ID_PARAM = "filmIdParam";
@@ -54,9 +50,13 @@ public class FilmActivity extends AppCompatActivity {
 
     private ProgressBar loadFilmProgressBar;
 
+    private ImageView favoriteImageView;
+    private ImageView lookedImageView;
+    private ImageView reviewImageView;
+
     private LoadFilmTask loadFilmTask = null;
 
-    private PersonListAdapter adapter = new PersonListAdapter();
+    private PersonListAdapter actorsAdapter = new PersonListAdapter();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,18 +65,15 @@ public class FilmActivity extends AppCompatActivity {
 
         loadViews();
 
-        final Intent intent = getIntent();
-        final int filmId = intent.getIntExtra(FILM_ID_PARAM, DEFAULT_FILM_ID);
-        loadFullDescriptionFilm(filmId);
+        loadFullDescriptionFilm(getFilmId());
     }
 
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
-        LoadFilmTask oldLoadFilmTask = null;
         if (loadFilmTask != null && loadFilmTask.getStatus().equals(AsyncTask.Status.RUNNING)) {
-            oldLoadFilmTask = loadFilmTask;
+            return loadFilmTask;
         }
-        return oldLoadFilmTask;
+        return null;
     }
 
     @Override
@@ -88,68 +85,24 @@ public class FilmActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private void loadViews() {
-        initToolbar();
-        initPersonsRecyclerView();
-
-        posterImageView = (ImageView) findViewById(R.id.poster_film);
-        alternativeNameTextView = (TextView) findViewById(R.id.alternative_name_film);
-        originalNameTextView = (TextView) findViewById(R.id.original_name_film);
-        yearTextView = (TextView) findViewById(R.id.year_film);
-        genresTextView = (TextView) findViewById(R.id.genres_film);
-
-        durationTextView = (TextView) findViewById(R.id.duration_film);
-        countriesTextView = (TextView) findViewById(R.id.countries_film);
-
-        sloganTextView = (TextView) findViewById(R.id.slogan_film);
-
-        producersTextView = (TextView) findViewById(R.id.producers_film);
-        writersTextView = (TextView) findViewById(R.id.writers_film);
-        directorsTextView = (TextView) findViewById(R.id.directors_film);
-
-        descriptionTextView = (TextView) findViewById(R.id.description_film);
-
-        loadFilmProgressBar = (ProgressBar) findViewById(R.id.loading_film_progressbar);
-    }
-
-    private void initToolbar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.film_toolbar);
-        if (toolbar != null) {
-            toolbar.setTitle(R.string.film_description_title);
-            setSupportActionBar(toolbar);
-        }
-
-        final ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
+    @Override
+    public void onClick(View view) {
+        final User user = ThisApplication.getInstance().getUser();
+        switch (view.getId()) {
+            case R.id.favorite_film:
+                new AddFilmToUserFavoriteTask(this)
+                        .execute(String.valueOf(user.getGlobalId()), String.valueOf(getFilmId()));
+                break;
+            case R.id.looked_film:
+                new AddFilmToUserLookedTask(this)
+                        .execute(String.valueOf(user.getGlobalId()), String.valueOf(getFilmId()), "1");
+                break;
+            case R.id.review_film:
+                break;
         }
     }
 
-    private void initPersonsRecyclerView() {
-        RecyclerView personRecyclerView = (RecyclerView) findViewById(R.id.persons_recycler_view);
-        if (personRecyclerView != null) {
-            personRecyclerView.setLayoutManager(
-                    new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-            );
-            personRecyclerView.setAdapter(adapter);
-        }
-    }
-
-    private void loadFullDescriptionFilm(int filmId) {
-        final Object lastCustomInstance = getLastCustomNonConfigurationInstance();
-        if (lastCustomInstance == null) {
-            loadFilmTask = new LoadFilmTask(this);
-            loadFilmTask.execute(filmId);
-        }
-        else {
-            loadFilmTask = (LoadFilmTask) lastCustomInstance;
-            if (loadFilmTask.getStatus().equals(AsyncTask.Status.RUNNING)) {
-                loadFilmTask.attachActivity(this);
-            }
-        }
-    }
-
-    private void bindViewFilm(FilmDTO film) {
+    public void bindViewFilm(FilmDTO film) {
         ImageLoader.getInstance().displayImage(
                 Constants.URI.POSTERS + film.getPosterUrl(),
                 posterImageView,
@@ -169,79 +122,118 @@ public class FilmActivity extends AppCompatActivity {
         writersTextView.setText(film.getWritersCommaDelimitedString());
         directorsTextView.setText(film.getDirectorsCommaDelimitedString());
 
-        adapter.setPersons(film.getActors());
+        actorsAdapter.setPersons(film.getActors());
 
         descriptionTextView.setText(film.getDescription());
     }
 
-    private void showLoadingProgressBar(boolean show) {
+    public void showLoadingProgressBar(boolean isShow) {
         ScrollView contentScrollView = (ScrollView) findViewById(R.id.film_content_scroll_view);
-        if (show) {
-            if (contentScrollView != null) {
+        if (contentScrollView != null) {
+            if (isShow) {
                 contentScrollView.setVisibility(View.INVISIBLE);
-            }
-            loadFilmProgressBar.setVisibility(View.VISIBLE);
-        }
-        else {
-            loadFilmProgressBar.setVisibility(View.GONE);
-            if (contentScrollView != null) {
+                loadFilmProgressBar.setVisibility(View.VISIBLE);
+            } else {
+                loadFilmProgressBar.setVisibility(View.GONE);
                 contentScrollView.setVisibility(View.VISIBLE);
             }
         }
     }
 
-    private static class LoadFilmTask extends AsyncTask<Integer, Void, FilmDTO> {
+    public void setFavoriteImage(boolean isAdded) {
+        if (isAdded) {
+            favoriteImageView.setImageResource(R.mipmap.ic_heart_on);
+        } else {
+            favoriteImageView.setImageResource(R.mipmap.ic_heart_off);
+        }
+    }
 
-        private FilmActivity activity;
+    public void setLookedImage(boolean isAdded) {
+        if (isAdded) {
+            lookedImageView.setImageResource(R.mipmap.ic_eye_on);
+        } else {
+            lookedImageView.setImageResource(R.mipmap.ic_eye_off);
+        }
+    }
 
-        public LoadFilmTask(FilmActivity activity) {
-            attachActivity(activity);
+    private void loadViews() {
+        initToolbar();
+        initActorsRecyclerView();
+
+        posterImageView = (ImageView) findViewById(R.id.poster_film);
+        alternativeNameTextView = (TextView) findViewById(R.id.alternative_name_film);
+        originalNameTextView = (TextView) findViewById(R.id.original_name_film);
+        yearTextView = (TextView) findViewById(R.id.year_film);
+        genresTextView = (TextView) findViewById(R.id.genres_film);
+
+        durationTextView = (TextView) findViewById(R.id.duration_film);
+        countriesTextView = (TextView) findViewById(R.id.countries_film);
+
+        sloganTextView = (TextView) findViewById(R.id.slogan_film);
+
+        producersTextView = (TextView) findViewById(R.id.producers_film);
+        writersTextView = (TextView) findViewById(R.id.writers_film);
+        directorsTextView = (TextView) findViewById(R.id.directors_film);
+
+        descriptionTextView = (TextView) findViewById(R.id.description_film);
+
+        loadFilmProgressBar = (ProgressBar) findViewById(R.id.loading_film_progressbar);
+
+        favoriteImageView = (ImageView) findViewById(R.id.favorite_film);
+        if (favoriteImageView != null) {
+            favoriteImageView.setOnClickListener(this);
         }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            activity.showLoadingProgressBar(true);
+        lookedImageView = (ImageView) findViewById(R.id.looked_film);
+        if (lookedImageView != null) {
+            lookedImageView.setOnClickListener(this);
         }
 
-        @Override
-        protected FilmDTO doInBackground(Integer... params) {
-            Assert.assertTrue("Params must be 1: filmId", params.length == 1);
+        reviewImageView = (ImageView) findViewById(R.id.review_film);
+        if (reviewImageView != null) {
+            reviewImageView.setOnClickListener(this);
+        }
+    }
 
-            final RestTemplate template = ThisApplication.getInstance().getRestTemplate();
-            ResponseEntity<FilmDTO> response;
-            try {
-                response = template.getForEntity(
-                        Constants.URI.FILM_BY_ID,
-                        FilmDTO.class,
-                        (Object[]) params
-                );
-            } catch (RestClientException e) {
-                return null;
+    private void initToolbar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.film_toolbar);
+        if (toolbar != null) {
+            toolbar.setTitle(R.string.film_description_title);
+            setSupportActionBar(toolbar);
+        }
+
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    private void initActorsRecyclerView() {
+        RecyclerView actorsRecyclerView = (RecyclerView) findViewById(R.id.actors_recycler_view);
+        if (actorsRecyclerView != null) {
+            actorsRecyclerView.setLayoutManager(
+                    new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            );
+            actorsRecyclerView.setAdapter(actorsAdapter);
+        }
+    }
+
+    private void loadFullDescriptionFilm(int filmId) {
+        final Object lastCustomInstance = getLastCustomNonConfigurationInstance();
+        if (lastCustomInstance == null) {
+            loadFilmTask = new LoadFilmTask(this);
+            loadFilmTask.execute(filmId);
+        }
+        else {
+            loadFilmTask = (LoadFilmTask) lastCustomInstance;
+            if (loadFilmTask.getStatus().equals(AsyncTask.Status.RUNNING)) {
+                loadFilmTask.attachActivity(this);
             }
-
-            return response.getBody();
         }
+    }
 
-        @Override
-        protected void onPostExecute(FilmDTO film) {
-
-            if (film == null) {
-                DialogManager.showDialog(activity, DialogManager.BAD_INTERNET_CONNECTION);
-            }
-            else {
-                activity.bindViewFilm(film);
-            }
-
-            activity.showLoadingProgressBar(false);
-            activity = null;
-            super.onPostExecute(film);
-        }
-
-        public void attachActivity(FilmActivity activity) {
-            this.activity = activity;
-        }
-
+    private int getFilmId() {
+        return getIntent().getIntExtra(FILM_ID_PARAM, DEFAULT_FILM_ID);
     }
 
 }

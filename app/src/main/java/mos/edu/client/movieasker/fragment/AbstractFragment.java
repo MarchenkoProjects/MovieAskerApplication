@@ -14,24 +14,14 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-
 import mos.edu.client.movieasker.R;
 import mos.edu.client.movieasker.activity.FilmActivity;
-import mos.edu.client.movieasker.activity.dialog.DialogManager;
 import mos.edu.client.movieasker.adapter.FilmListAdapter;
 import mos.edu.client.movieasker.app.Constants;
-import mos.edu.client.movieasker.app.ThisApplication;
 import mos.edu.client.movieasker.dto.ShortFilmDTO;
 import mos.edu.client.movieasker.listener.OnEndlessScrollListener;
 import mos.edu.client.movieasker.listener.OnItemClickListener;
+import mos.edu.client.movieasker.task.LoadContentTask;
 
 public abstract class AbstractFragment extends Fragment implements OnItemClickListener {
     protected static final int FRAGMENT_LAYOUT = R.layout.fragment_content;
@@ -43,15 +33,12 @@ public abstract class AbstractFragment extends Fragment implements OnItemClickLi
     private Button repeatLoadingButton;
     private ProgressBar loadingContentProgressBar;
 
-    protected LoadContentTask loadContentTask = null;
+    protected LoadContentTask loadContentTask;
 
     protected AbstractFragment(String title) {
         this.title = title;
         this.adapter = new FilmListAdapter();
-    }
-
-    public String getTitle() {
-        return title;
+        this.loadContentTask = null;
     }
 
     @Override
@@ -91,16 +78,53 @@ public abstract class AbstractFragment extends Fragment implements OnItemClickLi
         showFilmDescription(film.getIdFilm());
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public FilmListAdapter getAdapter() {
+        return adapter;
+    }
+
+    public void updateAdapter() {
+        adapter.clearFilms();
+        firstLoadContent();
+    }
+
+    public void showLoadingProgressBar(boolean isShow) {
+        if (isShow) {
+            loadingContentProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            loadingContentProgressBar.setVisibility(View.GONE);
+        }
+    }
+
+    public void showRepeatLoadingButton(boolean isShow) {
+        if (isShow) {
+            repeatLoadingButton.setVisibility(View.VISIBLE);
+        } else {
+            repeatLoadingButton.setVisibility(View.GONE);
+        }
+    }
+
+    public void showMessageContent() {
+        if (!adapter.isEmpty()) {
+            contentMessageTextView.setVisibility(View.GONE);
+        } else {
+            contentMessageTextView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    protected abstract boolean contentLoad(int page, int size);
+
+    protected abstract void setMessageContent();
+
     private final OnEndlessScrollListener endlessScrollListener = new OnEndlessScrollListener() {
         @Override
         public boolean onLoadMore(int page, int size) {
             return contentLoad(page, size);
         }
     };
-
-    protected abstract boolean contentLoad(int page, int size);
-
-    protected abstract void setMessageContent();
 
     private final View.OnClickListener repeatLoadingContentClick =
             new View.OnClickListener() {
@@ -127,76 +151,10 @@ public abstract class AbstractFragment extends Fragment implements OnItemClickLi
         }
     }
 
-    private void showMessageContent() {
-        if (!adapter.isEmpty()) {
-            contentMessageTextView.setVisibility(View.GONE);
-        }
-        else {
-            contentMessageTextView.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void showBadInternetConnectionDialog() {
-        DialogManager.showDialog(this.getContext(), DialogManager.BAD_INTERNET_CONNECTION);
-    }
-
     private void showFilmDescription(int filmId) {
         final Intent filmActivity = new Intent(getContext(), FilmActivity.class);
         filmActivity.putExtra(FilmActivity.FILM_ID_PARAM, filmId);
         startActivity(filmActivity);
-    }
-
-    protected static class LoadContentTask extends AsyncTask<String, Void, Collection<ShortFilmDTO>> {
-
-        private AbstractFragment fragment;
-        protected final String contentUri;
-
-        public LoadContentTask(AbstractFragment fragment, String contentUri) {
-            this.fragment = fragment;
-            this.contentUri = contentUri;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            fragment.repeatLoadingButton.setVisibility(View.GONE);
-            fragment.loadingContentProgressBar.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected Collection<ShortFilmDTO> doInBackground(String... params) {
-            final RestTemplate template = ThisApplication.getInstance().getRestTemplate();
-
-            final ResponseEntity<ShortFilmDTO> response;
-            try {
-                response = template.getForEntity(contentUri, ShortFilmDTO.class, (Object[]) params);
-            } catch (RestClientException e) {
-                return null;
-            }
-
-            if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
-                return Collections.emptyList();
-            }
-
-            return response.getBody().getContent();
-        }
-
-        @Override
-        protected void onPostExecute(Collection<ShortFilmDTO> films) {
-            fragment.loadingContentProgressBar.setVisibility(View.GONE);
-
-            if (films == null) {
-                fragment.showBadInternetConnectionDialog();
-                fragment.repeatLoadingButton.setVisibility(View.VISIBLE);
-            } else if (!films.isEmpty()) {
-                fragment.adapter.addFilms(new ArrayList<>(films));
-                fragment.showMessageContent();
-            }
-
-            fragment = null;
-            super.onPostExecute(films);
-        }
-
     }
 
 }
