@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MovieAsker Alpha</string>
+    <string name="app_slogan">Кино на любой вкус</string>
+
+    <string name="search_item_title">Поиск</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_header_login">Ваш логин</string>
+    <string name="navigation_header_email">your-email@email.com</string>
+
+    <string name="registration_item_title">РЕГИСТРАЦИЯ</string>
+    <string name="new_item_title">НОВЫЕ</string>
+    <string name="favorite_item_title">ИЗБРАННОЕ</string>
+    <string name="looked_item_title">СМОТРЕЛ</string>
+    <string name="setting_item_title">НАСТРОЙКИ</string>
+    <string name="about_item_title">О ПРИЛОЖЕНИИ</string>
+
+    <string name="registration_title">Регистрация</string>
+    <string name="welcome_registration_text">Добро пожаловать в приложение MovieAsker.</string>
+    <string name="login_hint">Логин</string>
+    <string name="password_hint">Пароль</string>
+    <string name="repeat_password_hint">Повторить пароль</string>
+    <string name="email_hint">Email</string>
+    <string name="create_user_button_title">Зарегистрироваться</string>
+
+    <string name="login_empty_warning">Введите логин</string>
+    <string name="login_length_warning">Логин не может быть меньше 3 символов</string>
+    <string name="password_empty_warning">Введите пароль</string>
+    <string name="password_length_warning">Пароль не может быть меньше 4 символов</string>
+    <string name="repeat_password_empty_warning">Повторите пароль</string>
+    <string name="passwords_not_equals_warning">Пароли не совпадают</string>
+    <string name="email_empty_warning">Введите Email</string>
+    <string name="login_exists_warning">Такой логин уже зарегистрирован</string>
+
+    <string name="dialog_info_title">Информация</string>
+    <string name="dialog_warning_title">Предупреждение</string>
+    <string name="dialog_bad_internet_connection_message">Проверьте Ваше Интернет соединение и повторите загрузку</string>
+    <string name="dialog_create_user_successful_message">Поздравляем! Вы зарегистрированы в MovieAsker</string>
+    <string name="dialog_user_not_registered_message">Вы не зарегистрированы в системе. Зарегистрироваться?</string>
+    <string name="dialog_button_ok">OK</string>
+    <string name="dialog_button_yes">Да</string>
+    <string name="dialog_button_no">Нет</string>
+
+    <string name="new_empty_content_text">Новые фильмы не найдены</string>
+    <string name="favorite_empty_content_text">Вы не добавили избранное</string>
+    <string name="looked_empty_content_text">Вы не добавили просмотренное</string>
+    <string name="user_not_registered_content_text">Вы не зарегистрированы</string>
+
+    <string name="repeat_loading_content_title">Повторить загрузку</string>
+
+    <string name="film_description_title">Полное описание</string>
+    <string name="film_year_text">Год выхода</string>
+    <string name="film_genres_text">Жанры</string>
+    <string name="film_duration_text">Время</string>
+    <string name="film_countries_text">Страны</string>
+    <string name="film_producers_text">Продюсеры</string>
+    <string name="film_writers_text">Сценаристы</string>
+    <string name="film_directors_text">Режиссеры</string>
+    <string name="film_creators_block_title">Создатели</string>
+    <string name="film_actors_block_title">Актеры</string>
+    <string name="film_about_block_title">Сюжет</string>
+
+    <string name="film_to_favorite_text">Фильм добавлен в Избранное</string>
+    <string name="film_to_looked_text">Фильм добавлен в Просмотренное</string>
+
+    <string name="about_title">О приложении</string>
+    <string name="about_app_text">MovieAsker - мультимедийное приложение разработанное для настоящих фанатов кино. Представьте себе Ваш личный публичный дневник кино, которым Вы можете поделиться с тысячами фанатов по всему миру. Пусть ваши друзья и знакомые узнают все о вашем кино-вкусе.</string>
+    <string name="about_developer_block_title">Разработчик</string>
+    <string name="about_developer_name">Марченко Олег</string>
+    <string name="about_idea_master_block_title">Идейный вдохновитель</string>
+    <string name="about_idea_master_name">Бондарь Маргарита</string>
+</resources>

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import mos.edu.client.movieasker.R;
+import mos.edu.client.movieasker.activity.dialog.DialogManager;
 import mos.edu.client.movieasker.adapter.FilmListAdapter;
 import mos.edu.client.movieasker.adapter.PersonListAdapter;
 import mos.edu.client.movieasker.app.Constants;
@@ -88,6 +89,11 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         final User user = ThisApplication.getInstance().getUser();
+        if (user == null) {
+            DialogManager.createAndShowDialog(this, DialogManager.USER_NOT_REGISTERED);
+            return;
+        }
+
         switch (view.getId()) {
             case R.id.favorite_film:
                 new AddFilmToUserFavoriteTask(this)

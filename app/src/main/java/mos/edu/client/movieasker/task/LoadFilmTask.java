@@ -46,7 +46,7 @@ public class LoadFilmTask extends AsyncTask<Integer, Void, FilmDTO> {
     @Override
     protected void onPostExecute(FilmDTO film) {
         if (film == null) {
-            DialogManager.showDialog(activity, DialogManager.BAD_INTERNET_CONNECTION);
+            DialogManager.createAndShowDialog(activity, DialogManager.BAD_INTERNET_CONNECTION);
             activity.finish();
         } else {
             activity.bindViewFilm(film);

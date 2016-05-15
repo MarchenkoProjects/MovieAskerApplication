@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 
 import mos.edu.client.movieasker.activity.FilmActivity;
+import mos.edu.client.movieasker.activity.dialog.DialogManager;
 import mos.edu.client.movieasker.app.ThisApplication;
 
 public abstract class AbstractAddFilmToUserTask extends AsyncTask<String, Void, Boolean> {
@@ -43,6 +44,10 @@ public abstract class AbstractAddFilmToUserTask extends AsyncTask<String, Void, 
 
     @Override
     protected void onPostExecute(Boolean created) {
+        if (!created) {
+            DialogManager.createAndShowDialog(activity, DialogManager.BAD_INTERNET_CONNECTION);
+        }
+
         activity = null;
         super.onPostExecute(created);
     }

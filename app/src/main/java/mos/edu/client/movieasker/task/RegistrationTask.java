@@ -79,13 +79,13 @@ public class RegistrationTask extends AsyncTask<UserDTO, Void, Integer> {
 
         switch (resultCode) {
             case BAD_INTERNET_CONNECTION_CODE:
-                DialogManager.showDialog(activity, DialogManager.BAD_INTERNET_CONNECTION);
+                DialogManager.createAndShowDialog(activity, DialogManager.BAD_INTERNET_CONNECTION);
                 break;
             case LOGIN_EXISTS_CODE:
                 Toast.makeText(activity, R.string.login_exists_warning, Toast.LENGTH_LONG).show();
                 break;
             case OK_CODE:
-                DialogManager.showDialog(activity, DialogManager.CREATE_USER_SUCCESSFUL_DIALOG);
+                DialogManager.createAndShowDialog(activity, DialogManager.CREATE_USER_SUCCESSFUL_DIALOG);
                 break;
         }
         activity = null;

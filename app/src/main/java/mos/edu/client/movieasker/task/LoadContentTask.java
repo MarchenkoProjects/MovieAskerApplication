@@ -56,7 +56,7 @@ public class LoadContentTask extends AsyncTask<String, Void, Collection<ShortFil
         fragment.showLoadingProgressBar(false);
 
         if (films == null) {
-            DialogManager.showDialog(fragment.getContext(), DialogManager.BAD_INTERNET_CONNECTION);
+            DialogManager.createAndShowDialog(fragment.getContext(), DialogManager.BAD_INTERNET_CONNECTION);
             fragment.showRepeatLoadingButton(true);
         } else if (!films.isEmpty()) {
             fragment.getAdapter().addFilms(new ArrayList<>(films));

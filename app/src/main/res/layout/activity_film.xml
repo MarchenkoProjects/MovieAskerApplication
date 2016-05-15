@@ -38,6 +38,8 @@
                 android:id="@+id/alternative_name_film"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:gravity="center"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -47,6 +49,8 @@
                 android:id="@+id/original_name_film"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:gravity="center"
                 android:textSize="12sp"
                 android:textStyle="italic"
@@ -138,7 +142,7 @@
                         android:id="@+id/year_film"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_span="3"
+                        android:layout_span="2"
                         android:textSize="14sp"
                         android:typeface="serif" />
                 </TableRow>
@@ -158,7 +162,7 @@
                         android:id="@+id/genres_film"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_span="3"
+                        android:layout_span="2"
                         android:textSize="14sp"
                         android:typeface="serif" />
                 </TableRow>
@@ -178,7 +182,7 @@
                         android:id="@+id/duration_film"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_span="3"
+                        android:layout_span="2"
                         android:textSize="14sp"
                         android:typeface="serif" />
                 </TableRow>
@@ -198,7 +202,7 @@
                         android:id="@+id/countries_film"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_span="3"
+                        android:layout_span="2"
                         android:textSize="14sp"
                         android:typeface="serif" />
                 </TableRow>
@@ -241,7 +245,7 @@
                         android:id="@+id/producers_film"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_span="3"
+                        android:layout_span="2"
                         android:textSize="14sp"
                         android:typeface="serif" />
                 </TableRow>
@@ -261,7 +265,7 @@
                         android:id="@+id/writers_film"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_span="3"
+                        android:layout_span="2"
                         android:textSize="14sp"
                         android:typeface="serif" />
                 </TableRow>
@@ -281,7 +285,7 @@
                         android:id="@+id/directors_film"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_span="3"
+                        android:layout_span="2"
                         android:textSize="14sp"
                         android:typeface="serif" />
                 </TableRow>

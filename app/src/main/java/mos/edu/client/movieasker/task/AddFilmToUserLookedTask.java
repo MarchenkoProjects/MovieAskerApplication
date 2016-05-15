@@ -21,9 +21,6 @@ public class AddFilmToUserLookedTask extends AbstractAddFilmToUserTask {
             Toast.makeText(activity, R.string.film_to_looked_text, Toast.LENGTH_SHORT).show();
             activity.setLookedImage(true);
         }
-        else {
-            DialogManager.showDialog(activity, DialogManager.BAD_INTERNET_CONNECTION);
-        }
 
         super.onPostExecute(created);
     }
