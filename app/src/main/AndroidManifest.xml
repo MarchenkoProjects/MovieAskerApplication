@@ -18,24 +18,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <activity android:name=".activity.RegistrationActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
-        </activity>
-
-        <activity android:name=".activity.FilmActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
-        </activity>
-
-        <activity android:name=".activity.AboutActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
-        </activity>
+        <activity android:name=".activity.RegistrationActivity" />
+        <activity android:name=".activity.FilmActivity" />
+        <activity android:name=".activity.ReviewActivity" />
+        <activity android:name=".activity.AboutActivity" />
     </application>
 
 </manifest>

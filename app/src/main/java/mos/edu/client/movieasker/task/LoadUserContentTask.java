@@ -14,9 +14,9 @@ import mos.edu.client.movieasker.dto.FavoriteDTO;
 import mos.edu.client.movieasker.dto.ShortFilmDTO;
 import mos.edu.client.movieasker.fragment.AbstractFragment;
 
-public class LoadFavoriteOrLookedContentTask extends LoadContentTask {
+public class LoadUserContentTask extends LoadContentTask {
 
-    public LoadFavoriteOrLookedContentTask(AbstractFragment fragment, String contentUri) {
+    public LoadUserContentTask(AbstractFragment fragment, String contentUri) {
         super(fragment, contentUri);
     }
 
@@ -26,8 +26,7 @@ public class LoadFavoriteOrLookedContentTask extends LoadContentTask {
 
         ResponseEntity<FavoriteDTO> response;
         try {
-            response =
-                    template.getForEntity(contentUri, FavoriteDTO.class, (Object[]) params);
+            response = template.getForEntity(contentUri, FavoriteDTO.class, (Object[]) params);
         } catch (RestClientException e) {
             return null;
         }

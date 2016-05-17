@@ -63,7 +63,6 @@ public class LoadContentTask extends AsyncTask<String, Void, Collection<ShortFil
             fragment.showMessageContent();
         }
 
-        fragment = null;
         super.onPostExecute(films);
     }
 

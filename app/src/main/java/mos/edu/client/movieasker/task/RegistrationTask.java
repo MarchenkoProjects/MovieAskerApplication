@@ -88,7 +88,7 @@ public class RegistrationTask extends AsyncTask<UserDTO, Void, Integer> {
                 DialogManager.createAndShowDialog(activity, DialogManager.CREATE_USER_SUCCESSFUL_DIALOG);
                 break;
         }
-        activity = null;
+
         super.onPostExecute(resultCode);
     }
 

@@ -4,13 +4,12 @@ import android.widget.Toast;
 
 import mos.edu.client.movieasker.R;
 import mos.edu.client.movieasker.activity.FilmActivity;
-import mos.edu.client.movieasker.activity.dialog.DialogManager;
 import mos.edu.client.movieasker.app.Constants;
 import mos.edu.client.movieasker.fragment.FavoriteFragment;
 
-public class AddFilmToUserFavoriteTask extends AbstractAddFilmToUserTask {
+public class FilmToFavoriteTask extends AbstractFilmToUserTask {
 
-    public AddFilmToUserFavoriteTask(FilmActivity activity) {
+    public FilmToFavoriteTask(FilmActivity activity) {
         super(activity, Constants.URI.POST_USER_FAVORITE);
     }
 

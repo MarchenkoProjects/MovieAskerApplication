@@ -19,7 +19,7 @@ public class NewFragment extends AbstractFragment {
 
     @Override
     protected boolean contentLoad(int page, int size) {
-        loadContentTask = new LoadContentTask(this, Constants.URI.FILMS);
+        loadContentTask = new LoadContentTask(instance, Constants.URI.FILMS);
         loadContentTask.execute(String.valueOf(page), String.valueOf(size));
         return true;
     }

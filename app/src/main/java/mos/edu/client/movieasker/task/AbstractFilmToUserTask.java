@@ -17,14 +17,20 @@ import mos.edu.client.movieasker.activity.FilmActivity;
 import mos.edu.client.movieasker.activity.dialog.DialogManager;
 import mos.edu.client.movieasker.app.ThisApplication;
 
-public abstract class AbstractAddFilmToUserTask extends AsyncTask<String, Void, Boolean> {
+public abstract class AbstractFilmToUserTask extends AsyncTask<String, Void, Boolean> {
 
     protected FilmActivity activity;
     private final String uri;
 
-    public AbstractAddFilmToUserTask(FilmActivity activity, String uri) {
+    public AbstractFilmToUserTask(FilmActivity activity, String uri) {
         this.activity = activity;
         this.uri = uri;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        activity.showProgressBar(true);
     }
 
     @Override
@@ -33,8 +39,7 @@ public abstract class AbstractAddFilmToUserTask extends AsyncTask<String, Void, 
 
         ResponseEntity<String> response;
         try {
-            response =
-                    template.exchange(uri, HttpMethod.POST, prepareRequest(), String.class, (Object[]) params);
+            response = template.exchange(uri, HttpMethod.POST, prepareRequest(), String.class, (Object[]) params);
         } catch (RestClientException e) {
             return false;
         }
@@ -44,11 +49,12 @@ public abstract class AbstractAddFilmToUserTask extends AsyncTask<String, Void, 
 
     @Override
     protected void onPostExecute(Boolean created) {
+        activity.showProgressBar(false);
+
         if (!created) {
             DialogManager.createAndShowDialog(activity, DialogManager.BAD_INTERNET_CONNECTION);
         }
 
-        activity = null;
         super.onPostExecute(created);
     }
 

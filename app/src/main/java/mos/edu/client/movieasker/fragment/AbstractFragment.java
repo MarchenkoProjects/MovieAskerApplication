@@ -92,26 +92,32 @@ public abstract class AbstractFragment extends Fragment implements OnItemClickLi
     }
 
     public void showLoadingProgressBar(boolean isShow) {
-        if (isShow) {
-            loadingContentProgressBar.setVisibility(View.VISIBLE);
-        } else {
-            loadingContentProgressBar.setVisibility(View.GONE);
+        if (loadingContentProgressBar != null) {
+            if (isShow) {
+                loadingContentProgressBar.setVisibility(View.VISIBLE);
+            } else {
+                loadingContentProgressBar.setVisibility(View.GONE);
+            }
         }
     }
 
     public void showRepeatLoadingButton(boolean isShow) {
-        if (isShow) {
-            repeatLoadingButton.setVisibility(View.VISIBLE);
-        } else {
-            repeatLoadingButton.setVisibility(View.GONE);
+        if (repeatLoadingButton != null) {
+            if (isShow) {
+                repeatLoadingButton.setVisibility(View.VISIBLE);
+            } else {
+                repeatLoadingButton.setVisibility(View.GONE);
+            }
         }
     }
 
     public void showMessageContent() {
-        if (!adapter.isEmpty()) {
-            contentMessageTextView.setVisibility(View.GONE);
-        } else {
-            contentMessageTextView.setVisibility(View.VISIBLE);
+        if (contentMessageTextView != null) {
+            if (!adapter.isEmpty()) {
+                contentMessageTextView.setVisibility(View.GONE);
+            } else {
+                contentMessageTextView.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -139,8 +145,7 @@ public abstract class AbstractFragment extends Fragment implements OnItemClickLi
             if (adapter.isEmpty()) {
                 contentLoad(Constants.FIRST_PAGE_NUMBER, Constants.ELEMENTS_ON_PAGE);
             }
-        }
-        else {
+        } else {
             if (loadContentTask.getStatus() == AsyncTask.Status.RUNNING) {
                 loadingContentProgressBar.setVisibility(View.VISIBLE);
             }

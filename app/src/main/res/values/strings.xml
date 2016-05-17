@@ -24,13 +24,13 @@
     <string name="email_hint">Email</string>
     <string name="create_user_button_title">Create User</string>
 
-    <string name="login_empty_warning">Login is empty</string>
+    <string name="login_empty_warning">Login must not be empty</string>
     <string name="login_length_warning">Login can`t be less 3 symbols</string>
-    <string name="password_empty_warning">Password is empty</string>
+    <string name="password_empty_warning">Password must not be empty</string>
     <string name="password_length_warning">Password can`t be less 4 symbols</string>
-    <string name="repeat_password_empty_warning">Repeat password is empty</string>
+    <string name="repeat_password_empty_warning">Repeat password must not be empty</string>
     <string name="passwords_not_equals_warning">Password and Repeat password not equals</string>
-    <string name="email_empty_warning">Email is empty</string>
+    <string name="email_empty_warning">Email must not be empty</string>
     <string name="login_exists_warning">This login already registered</string>
 
     <string name="dialog_info_title">Information</string>
@@ -63,6 +63,14 @@
 
     <string name="film_to_favorite_text">Movie added to Favorite</string>
     <string name="film_to_looked_text">Movie added to Looked</string>
+    <string name="review_added_film_text">Your review added successful</string>
+
+    <string name="review_title">Film review</string>
+    <string name="review_header_hint">Header</string>
+    <string name="review_text_hint">Review text</string>
+    <string name="review_add_button_title">Add review</string>
+    <string name="header_empty_warning">Header must not be empty</string>
+    <string name="review_empty_warning">Review text must not be empty</string>
 
     <string name="about_title">About application</string>
     <string name="about_app_text">MovieAsker is multimedia application created for real movie funs. Your personal movie diary which you can share with thousands of fans around the world. Your friends know all about your movie taste.</string>

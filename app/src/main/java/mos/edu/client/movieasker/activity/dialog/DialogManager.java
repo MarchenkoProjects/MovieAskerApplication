@@ -8,6 +8,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 
 import mos.edu.client.movieasker.R;
+import mos.edu.client.movieasker.activity.MainActivity;
 import mos.edu.client.movieasker.activity.RegistrationActivity;
 
 public class DialogManager {
@@ -41,7 +42,9 @@ public class DialogManager {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 dialogInterface.dismiss();
-                                NavUtils.navigateUpFromSameTask((AppCompatActivity) context);
+
+                                final AppCompatActivity activity = (AppCompatActivity) context;
+                                NavUtils.navigateUpTo(activity, new Intent(activity, MainActivity.class));
                             }
                         })
                         .show();

@@ -4,13 +4,12 @@ import android.widget.Toast;
 
 import mos.edu.client.movieasker.R;
 import mos.edu.client.movieasker.activity.FilmActivity;
-import mos.edu.client.movieasker.activity.dialog.DialogManager;
 import mos.edu.client.movieasker.app.Constants;
 import mos.edu.client.movieasker.fragment.LookedFragment;
 
-public class AddFilmToUserLookedTask extends AbstractAddFilmToUserTask {
+public class FilmToLookedTask extends AbstractFilmToUserTask {
 
-    public AddFilmToUserLookedTask(FilmActivity activity) {
+    public FilmToLookedTask(FilmActivity activity) {
         super(activity, Constants.URI.POST_USER_LOOKED);
     }
 

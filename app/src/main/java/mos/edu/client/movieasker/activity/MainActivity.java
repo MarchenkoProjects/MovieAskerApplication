@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import junit.framework.Assert;
+
 import mos.edu.client.movieasker.R;
 import mos.edu.client.movieasker.adapter.TabsFragmentPagerAdapter;
 import mos.edu.client.movieasker.app.Constants;
@@ -31,10 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int NAVIGATION_HEADER_INDEX = 0;
     private static final String CURRENT_TAB_ITEM_PREFS = "currentTabItem";
-
-    private Toolbar toolbar;
-    private DrawerLayout drawerLayout;
-    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        ViewPager viewPager = (ViewPager) findViewById(R.id.main_view_pager);
+        Assert.assertNotNull(viewPager);
         int currentTabItem = viewPager.getCurrentItem();
         saveCurrentTabItem(currentTabItem);
 
@@ -61,10 +61,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
+        Assert.assertNotNull(drawerLayout);
+
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -76,47 +78,48 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        if (toolbar != null) {
-            toolbar.setTitle(R.string.app_name);
-            toolbar.inflateMenu(MENU);
-        }
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        Assert.assertNotNull(toolbar);
+        toolbar.setTitle(R.string.app_name);
+        toolbar.inflateMenu(MENU);
     }
 
     private void initNavigationDrawer() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
-        if (drawerLayout != null) {
-            final ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
-                    this,
-                    drawerLayout,
-                    toolbar,
-                    R.string.navigation_drawer_open,
-                    R.string.navigation_drawer_close
-            );
-            drawerToggle.syncState();
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
+        Assert.assertNotNull(drawerLayout);
 
-            drawerLayout.addDrawerListener(drawerToggle);
-        }
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        Assert.assertNotNull(toolbar);
 
-        final NavigationView navigationView = (NavigationView) findViewById(R.id.main_navigation_view);
-        if (navigationView != null) {
-            initUserProfileInNavigationHeader(navigationView);
-            navigationView.setNavigationItemSelectedListener(navigationItemListener);
-        }
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
+        drawerToggle.syncState();
+
+        drawerLayout.addDrawerListener(drawerToggle);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.main_navigation_view);
+        Assert.assertNotNull(navigationView);
+        initUserProfileInNavigationHeader(navigationView);
+        navigationView.setNavigationItemSelectedListener(navigationItemListener);
     }
 
     private void initUserProfileInNavigationHeader(NavigationView navigationView) {
         final User user = ThisApplication.getInstance().getUser();
         if (user != null) {
-            final View navigationHeader = navigationView.getHeaderView(NAVIGATION_HEADER_INDEX);
+            View navigationHeader = navigationView.getHeaderView(NAVIGATION_HEADER_INDEX);
             TextView profileLoginTextView = (TextView) navigationHeader.findViewById(R.id.profile_login_text_view);
             profileLoginTextView.setText(user.getLogin());
 
             TextView profileEmailTextView = (TextView) navigationHeader.findViewById(R.id.profile_email_text_view);
             profileEmailTextView.setText(user.getEmail());
 
-            final Menu navigationMenu = navigationView.getMenu();
-            final MenuItem registrationItem = navigationMenu.findItem(R.id.registration_navigation_item);
+            Menu navigationMenu = navigationView.getMenu();
+            MenuItem registrationItem = navigationMenu.findItem(R.id.registration_navigation_item);
             registrationItem.setVisible(false);
         }
     }
@@ -126,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onNavigationItemSelected(MenuItem item) {
+                    DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
+                    Assert.assertNotNull(drawerLayout);
                     drawerLayout.closeDrawers();
 
                     switch (item.getItemId()) {
@@ -166,21 +171,18 @@ public class MainActivity extends AppCompatActivity {
             };
 
     private void initTabs() {
-        final TabsFragmentPagerAdapter tabsAdapter =
-                new TabsFragmentPagerAdapter(getSupportFragmentManager());
+        TabsFragmentPagerAdapter tabsAdapter = new TabsFragmentPagerAdapter(getSupportFragmentManager());
         tabsAdapter.addFragment(NewFragment.getInstance());
         tabsAdapter.addFragment(FavoriteFragment.getInstance());
         tabsAdapter.addFragment(LookedFragment.getInstance());
 
-        viewPager = (ViewPager) findViewById(R.id.main_view_pager);
-        if (viewPager != null) {
-            viewPager.setAdapter(tabsAdapter);
-        }
+        ViewPager viewPager = (ViewPager) findViewById(R.id.main_view_pager);
+        Assert.assertNotNull(viewPager);
+        viewPager.setAdapter(tabsAdapter);
 
-        final TabLayout tabLayout = (TabLayout) findViewById(R.id.main_tabs_layout);
-        if (tabLayout != null) {
-            tabLayout.setupWithViewPager(viewPager);
-        }
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.main_tabs_layout);
+        Assert.assertNotNull(tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     private void saveCurrentTabItem(int currentTabItem) {
@@ -197,6 +199,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showTabByItem(int item) {
+        ViewPager viewPager = (ViewPager) findViewById(R.id.main_view_pager);
+        Assert.assertNotNull(viewPager);
         viewPager.setCurrentItem(item);
     }
 

@@ -64,6 +64,14 @@
 
     <string name="film_to_favorite_text">Фильм добавлен в Избранное</string>
     <string name="film_to_looked_text">Фильм добавлен в Просмотренное</string>
+    <string name="review_added_film_text">Ваша рецензия добавленна</string>
+
+    <string name="review_title">Рецензия к фильму</string>
+    <string name="review_header_hint">Заголовок рецензии</string>
+    <string name="review_text_hint">Текст рецензии</string>
+    <string name="review_add_button_title">Добавить рецензию</string>
+    <string name="header_empty_warning">Введите заголовок</string>
+    <string name="review_empty_warning">Введите текст рецензии</string>
 
     <string name="about_title">О приложении</string>
     <string name="about_app_text">MovieAsker - мультимедийное приложение разработанное для настоящих фанатов кино. Представьте себе Ваш личный публичный дневник кино, которым Вы можете поделиться с тысячами фанатов по всему миру. Пусть ваши друзья и знакомые узнают все о вашем кино-вкусе.</string>

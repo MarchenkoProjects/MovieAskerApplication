@@ -25,7 +25,8 @@ public class LoadFilmTask extends AsyncTask<Integer, Void, FilmDTO> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        activity.showLoadingProgressBar(true);
+        activity.showContent(false);
+        activity.showProgressBar(true);
     }
 
     @Override
@@ -45,15 +46,16 @@ public class LoadFilmTask extends AsyncTask<Integer, Void, FilmDTO> {
 
     @Override
     protected void onPostExecute(FilmDTO film) {
+        activity.showProgressBar(false);
+
         if (film == null) {
             DialogManager.createAndShowDialog(activity, DialogManager.BAD_INTERNET_CONNECTION);
             activity.finish();
         } else {
             activity.bindViewFilm(film);
-            activity.showLoadingProgressBar(false);
+            activity.showContent(true);
         }
 
-        activity = null;
         super.onPostExecute(film);
     }
 
