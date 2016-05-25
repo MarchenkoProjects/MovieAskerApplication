@@ -58,6 +58,8 @@
     <string name="film_producers_text">Продюсеры</string>
     <string name="film_writers_text">Сценаристы</string>
     <string name="film_directors_text">Режиссеры</string>
+    <string name="film_rating_block_title">Рейтинг</string>
+    <string name="film_votes_count_title">Проголосовало</string>
     <string name="film_creators_block_title">Создатели</string>
     <string name="film_actors_block_title">Актеры</string>
     <string name="film_about_block_title">Сюжет</string>

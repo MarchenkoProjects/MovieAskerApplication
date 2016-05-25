@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -146,6 +147,14 @@ public class FilmActivity extends AppCompatActivity implements View.OnClickListe
         TextView descriptionTextView = (TextView) findViewById(R.id.description_film);
         Assert.assertNotNull(descriptionTextView);
         descriptionTextView.setText(film.getDescription());
+
+        RatingBar ratingRatingBar = (RatingBar) findViewById(R.id.rating_film);
+        Assert.assertNotNull(ratingRatingBar);
+        ratingRatingBar.setRating((float) film.getRating().getRating());
+
+        TextView votesCountTextView = (TextView) findViewById(R.id.votes_count_film);
+        Assert.assertNotNull(votesCountTextView);
+        votesCountTextView.setText(String.valueOf(film.getRating().getVotesCount()));
 
         actorsAdapter.setPersons(film.getActors());
     }

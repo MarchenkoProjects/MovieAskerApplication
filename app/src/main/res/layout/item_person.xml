@@ -21,8 +21,7 @@
             android:layout_width="@dimen/person_name_width"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="12sp"
-            android:typeface="serif" />
+            style="@style/SmallerTextStyle" />
 
     </LinearLayout>
 

@@ -26,17 +26,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:typeface="serif" />
+            style="@style/LargerBoldTextStyle" />
 
         <TextView
             android:id="@+id/year_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="20sp"
-            android:typeface="serif" />
+            style="@style/LargerTextStyle" />
 
     </LinearLayout>
 

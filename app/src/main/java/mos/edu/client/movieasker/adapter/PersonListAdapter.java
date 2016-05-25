@@ -17,7 +17,7 @@ import mos.edu.client.movieasker.dto.FilmDTO;
 import mos.edu.client.movieasker.holder.PersonViewHolder;
 
 public class PersonListAdapter extends RecyclerView.Adapter<PersonViewHolder> {
-    private static final int ITEM_LAYOUT = R.layout.person_item;
+    private static final int ITEM_LAYOUT = R.layout.item_person;
 
     private static final DisplayImageOptions IMAGE_OPTIONS = new DisplayImageOptions.Builder()
             .cacheInMemory(false)

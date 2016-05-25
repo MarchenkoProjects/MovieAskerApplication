@@ -5,16 +5,13 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="@dimen/navigation_header_height"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:padding="@dimen/navigation_header_padding"
     android:background="@drawable/navigation_header_background">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_avatar_image_view"
         android:layout_width="@dimen/navigation_header_profile_image_size"
         android:layout_height="@dimen/navigation_header_profile_image_size"
-        android:paddingTop="@dimen/navigation_header_vertical_spacing"
         android:src="@drawable/profile_image"
         app:civ_border_width="1dp"
         app:civ_border_color="#FF000000" />
@@ -23,10 +20,10 @@
         android:id="@+id/profile_login_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/navigation_header_vertical_spacing"
+        android:layout_marginTop="@dimen/spacing_medium"
         android:text="@string/navigation_header_login"
         android:textColor="@color/color_white"
-        android:textSize="@dimen/navigation_header_login_text_size" />
+        style="@style/MediumTextStyle" />
 
     <TextView
         android:id="@+id/profile_email_text_view"
@@ -34,7 +31,6 @@
         android:layout_height="wrap_content"
         android:text="@string/navigation_header_email"
         android:textColor="@color/color_white"
-        android:textSize="@dimen/navigation_header_email_text_size"
-        android:textStyle="bold" />
+        style="@style/MediumBoldTextStyle" />
 
 </LinearLayout>

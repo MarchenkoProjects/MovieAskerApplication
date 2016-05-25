@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextStyle">
+        <item name="android:typeface">serif</item>
+    </style>
+
+
+    <style name="SmallerTextStyle" parent="TextStyle">
+        <item name="android:textSize">@dimen/font_smaller</item>
+    </style>
+
+    <style name="SmallerItalicTextStyle" parent="SmallerTextStyle">
+        <item name="android:textStyle">italic</item>
+    </style>
+
+
+    <style name="SmallTextStyle" parent="TextStyle">
+        <item name="android:textSize">@dimen/font_small</item>
+    </style>
+
+    <style name="SmallBoldTextStyle" parent="SmallTextStyle">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SmallBoldItalicTextStyle" parent="SmallTextStyle">
+        <item name="android:textStyle">bold|italic</item>
+    </style>
+
+
+    <style name="MediumTextStyle" parent="TextStyle">
+        <item name="android:textSize">@dimen/font_medium</item>
+    </style>
+
+    <style name="MediumItalicTextStyle" parent="MediumTextStyle">
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="MediumBoldTextStyle" parent="MediumTextStyle">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="LargeTextStyle" parent="TextStyle">
+        <item name="android:textSize">@dimen/font_large</item>
+    </style>
+
+    <style name="LargeBoldTextStyle" parent="LargeTextStyle">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="LargeItalicTextStyle" parent="LargeTextStyle">
+        <item name="android:textStyle">italic</item>
+    </style>
+
+
+    <style name="LargerTextStyle" parent="TextStyle">
+        <item name="android:textSize">@dimen/font_larger</item>
+    </style>
+
+    <style name="LargerBoldTextStyle" parent="LargerTextStyle">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="HugeBoldTextStyle" parent="TextStyle">
+        <item name="android:textSize">@dimen/font_huge</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

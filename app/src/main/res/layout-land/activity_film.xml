@@ -60,9 +60,7 @@
                             android:layout_height="wrap_content"
                             android:layout_span="3"
                             android:gravity="center"
-                            android:textSize="20sp"
-                            android:textStyle="bold"
-                            android:typeface="serif" />
+                            style="@style/LargerBoldTextStyle" />
                     </TableRow>
 
                     <TableRow>
@@ -72,17 +70,10 @@
                             android:layout_height="wrap_content"
                             android:layout_span="3"
                             android:gravity="center"
-                            android:textSize="12sp"
-                            android:textStyle="italic"
-                            android:typeface="serif" />
+                            style="@style/SmallerItalicTextStyle" />
                     </TableRow>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginTop="@dimen/film_view_vertical_margin"
-                        android:layout_marginBottom="@dimen/film_view_vertical_margin"
-                        android:background="@color/color_primary_dark" />
+                    <include layout="@layout/block_view" />
 
                     <TableRow
                         android:gravity="center_vertical">
@@ -91,17 +82,14 @@
                             android:layout_height="wrap_content"
                             android:layout_column="0"
                             android:text="@string/film_year_text"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:typeface="serif" />
+                            style="@style/SmallBoldTextStyle" />
 
                         <TextView
                             android:id="@+id/year_film"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_span="2"
-                            android:textSize="14sp"
-                            android:typeface="serif" />
+                            style="@style/SmallTextStyle" />
                     </TableRow>
 
                     <TableRow
@@ -111,17 +99,14 @@
                             android:layout_height="wrap_content"
                             android:layout_column="0"
                             android:text="@string/film_genres_text"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:typeface="serif" />
+                            style="@style/SmallBoldTextStyle" />
 
                         <TextView
                             android:id="@+id/genres_film"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_span="2"
-                            android:textSize="14sp"
-                            android:typeface="serif" />
+                            style="@style/SmallTextStyle" />
                     </TableRow>
 
                     <TableRow
@@ -131,17 +116,14 @@
                             android:layout_height="wrap_content"
                             android:layout_column="0"
                             android:text="@string/film_duration_text"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:typeface="serif" />
+                            style="@style/SmallBoldTextStyle" />
 
                         <TextView
                             android:id="@+id/duration_film"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_span="2"
-                            android:textSize="14sp"
-                            android:typeface="serif" />
+                            style="@style/SmallTextStyle" />
                     </TableRow>
 
                     <TableRow
@@ -151,25 +133,17 @@
                             android:layout_height="wrap_content"
                             android:layout_column="0"
                             android:text="@string/film_countries_text"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:typeface="serif" />
+                            style="@style/SmallBoldTextStyle" />
 
                         <TextView
                             android:id="@+id/countries_film"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_span="2"
-                            android:textSize="14sp"
-                            android:typeface="serif" />
+                            style="@style/SmallTextStyle" />
                     </TableRow>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginTop="@dimen/film_view_vertical_margin"
-                        android:layout_marginBottom="@dimen/film_view_vertical_margin"
-                        android:background="@color/color_primary_dark" />
+                    <include layout="@layout/block_view" />
 
                     <TableRow>
                         <TextView
@@ -178,17 +152,41 @@
                             android:layout_height="wrap_content"
                             android:layout_span="3"
                             android:gravity="center"
-                            android:textStyle="bold|italic"
-                            android:textSize="14sp"
-                            android:typeface="serif" />
+                            style="@style/SmallBoldItalicTextStyle" />
                     </TableRow>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginTop="@dimen/film_view_vertical_margin"
-                        android:layout_marginBottom="@dimen/film_view_vertical_margin"
-                        android:background="@color/color_primary_dark" />
+                    <include layout="@layout/block_view" />
+
+                    <TableRow>
+                        <RatingBar
+                            android:id="@+id/rating_film"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_span="3"
+                            android:numStars="10"
+                            android:stepSize="1.0"
+                            style="?android:attr/ratingBarStyleIndicator" />
+                    </TableRow>
+
+                    <TableRow
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_column="0"
+                            android:text="@string/film_votes_count_title"
+                            style="@style/SmallBoldTextStyle" />
+
+                        <TextView
+                            android:id="@+id/votes_count_film"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_span="2"
+                            style="@style/SmallTextStyle" />
+                    </TableRow>
+
+                    <include layout="@layout/block_view" />
 
                     <TableRow>
                         <LinearLayout
@@ -237,11 +235,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:text="@string/film_creators_block_title"
-                android:textColor="@color/color_background"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:typeface="serif"
-                android:background="@color/color_primary_dark" />
+                style="@style/BlockTextViewStyle" />
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -257,17 +251,14 @@
                         android:layout_height="wrap_content"
                         android:layout_column="0"
                         android:text="@string/film_producers_text"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
+                        style="@style/SmallBoldTextStyle" />
 
                     <TextView
                         android:id="@+id/producers_film"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_span="5"
-                        android:textSize="14sp"
-                        android:typeface="serif" />
+                        style="@style/SmallTextStyle" />
                 </TableRow>
 
                 <TableRow
@@ -277,17 +268,14 @@
                         android:layout_height="wrap_content"
                         android:layout_column="0"
                         android:text="@string/film_writers_text"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
+                        style="@style/SmallBoldTextStyle" />
 
                     <TextView
                         android:id="@+id/writers_film"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_span="5"
-                        android:textSize="14sp"
-                        android:typeface="serif" />
+                        style="@style/SmallTextStyle" />
                 </TableRow>
 
                 <TableRow
@@ -297,17 +285,14 @@
                         android:layout_height="wrap_content"
                         android:layout_column="0"
                         android:text="@string/film_directors_text"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
+                        style="@style/SmallBoldTextStyle" />
 
                     <TextView
                         android:id="@+id/directors_film"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_span="5"
-                        android:textSize="14sp"
-                        android:typeface="serif" />
+                        style="@style/SmallTextStyle" />
                 </TableRow>
 
             </TableLayout>
@@ -320,11 +305,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:text="@string/film_actors_block_title"
-                android:textColor="@color/color_background"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:typeface="serif"
-                android:background="@color/color_primary_dark" />
+                style="@style/BlockTextViewStyle" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/actors_recycler_view"
@@ -339,11 +320,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:text="@string/film_about_block_title"
-                android:textColor="@color/color_background"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:typeface="serif"
-                android:background="@color/color_primary_dark" />
+                style="@style/BlockTextViewStyle" />
 
             <TextView
                 android:id="@+id/description_film"
@@ -351,15 +328,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:textSize="14sp"
-                android:typeface="serif" />
+                style="@style/SmallTextStyle" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="@dimen/film_view_vertical_margin"
-                android:layout_marginBottom="@dimen/film_view_vertical_margin"
-                android:background="@color/color_primary_dark" />
+            <include layout="@layout/block_view" />
 
         </LinearLayout>
     </ScrollView>
@@ -368,7 +339,7 @@
         android:id="@+id/loading_film_progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity = "center_vertical|center_horizontal"
+        android:layout_gravity="center_vertical|center_horizontal"
         android:visibility="gone"
         style="?android:attr/progressBarStyleLarge" />
 

@@ -5,9 +5,5 @@
     <color name="color_background">#F1F8E9</color>
     <color name="color_white">#EFEBE9</color>
 
-    <color name="color_green">#66BB6A</color>
-    <color name="color_yellow">#D4E157</color>
-    <color name="color_red">#EF5350</color>
-
     <color name="black_overlay">#66000000</color>
 </resources>

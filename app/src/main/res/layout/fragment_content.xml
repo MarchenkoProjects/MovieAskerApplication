@@ -19,8 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            style="@style/HugeBoldTextStyle" />
 
         <Button
             android:id="@+id/repeat_loading_content_button"
@@ -37,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_gravity = "center_horizontal|bottom"
+        android:layout_gravity="center_horizontal|bottom"
         android:visibility="gone"
         style="?android:attr/progressBarStyleLarge" />
 

@@ -57,6 +57,8 @@
     <string name="film_producers_text">Producers</string>
     <string name="film_writers_text">Writers</string>
     <string name="film_directors_text">Directors</string>
+    <string name="film_rating_block_title">Rating</string>
+    <string name="film_votes_count_title">Votes</string>
     <string name="film_creators_block_title">Creators</string>
     <string name="film_actors_block_title">Actors</string>
     <string name="film_about_block_title">About movie</string>

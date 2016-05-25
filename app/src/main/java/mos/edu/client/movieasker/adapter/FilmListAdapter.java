@@ -19,7 +19,7 @@ import mos.edu.client.movieasker.holder.FilmViewHolder;
 import mos.edu.client.movieasker.listener.OnItemClickListener;
 
 public class FilmListAdapter extends RecyclerView.Adapter<FilmViewHolder> {
-    private static final int ITEM_LAYOUT = R.layout.film_item;
+    private static final int ITEM_LAYOUT = R.layout.item_film;
 
     public static final DisplayImageOptions IMAGE_OPTIONS = new DisplayImageOptions.Builder()
             .cacheInMemory(true)
